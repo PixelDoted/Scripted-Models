@@ -55,7 +55,7 @@ public class ScriptedModelsGUI extends GuiHandler {
         }
 
         int y = 0;
-        File directory = new File(ScriptedModels.minecraft.runDirectory.getAbsolutePath() + "/PCM/Scripts");
+        File directory = new File(ScriptedModels.minecraft.runDirectory.getAbsolutePath() + ScriptedModels.ScriptsPath);
         for (File file : directory.listFiles()) {
             addButton(new ButtonWidget(5, y*25+35, 100, 20, Text.of(file.getName()), (btn) -> {
                 readFile(file, uuid);

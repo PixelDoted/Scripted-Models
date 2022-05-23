@@ -1,9 +1,15 @@
-# Fabric Example Mod
+# Scripted Models
 
-## Setup
+Scripted Models is currently in alpha  
+more features will be added in the future  
+for now here's the current commands  
+```
+vertex <x> <y> <z> <normal x> <normal y> <normal z> <u> <v> <red> <green> <blue> <alpha>
+translate <x> <y> <z>
+scale <x> <y> <z>
+rotate <x> <y> <z>
+particle <particle type> <x> <y> <z> <velocity x> <velocity y> <velocity z>
+```
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Script files go into .minecraft/ScriptedModels  
+and can be selected through the test GUI

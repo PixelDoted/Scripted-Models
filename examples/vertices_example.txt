@@ -1,0 +1,13 @@
+// 4 vertices are required to render a quad
+// make a vertex the same x,y,z as another vertex for a triangle
+// this is because minecraft likes rendering quads
+
+vertex -8 -8 -8 0 1 0 0 0 255 255 255 255
+vertex -8 -8 8 0 1 0 0 1 255 255 255 255
+vertex 8 -8 8 0 1 0 1 1 255 255 255 255
+vertex 8 -8 -8 0 1 0 1 0 255 255 255 255
+
+vertex -8 -16 -8 0 1 0 0 0 255 255 255 255
+vertex -8 -16 8 0 1 0 0 1 255 255 255 255
+vertex 8 -16 8 0 1 0 1 1 255 255 255 255
+vertex 8 -16 8 0 1 0 1 1 255 255 255 255

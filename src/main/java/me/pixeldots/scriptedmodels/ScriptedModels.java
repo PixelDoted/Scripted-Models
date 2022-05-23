@@ -18,6 +18,7 @@ import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 public class ScriptedModels implements ClientModInitializer {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger("scriptedmodels");
+	public static final String ScriptsPath = "/ScriptedModels";
 
 	public static Map<UUID, ScriptedEntity> EntityScript = new HashMap<>();
 	public static Map<LivingEntity, EntityModel<?>> EntityModels = new HashMap<>();
