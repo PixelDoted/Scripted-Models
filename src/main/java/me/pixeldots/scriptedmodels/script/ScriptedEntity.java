@@ -14,13 +14,5 @@ public class ScriptedEntity {
     public Map<ModelPart, Line[]> parts = new HashMap<>();
 
     public ScriptedEntity() {}
-    /*public ScriptedEntity() {
-        global = Interpreter.compile(new String[] {
-            "vertex -8 0 -8 0 1 0 0 0 255 255 255 255",
-            "vertex -8 0 8 0 1 0 0 1 255 255 255 255",
-            "vertex 8 0 8 0 1 0 1 1 255 255 255 255",
-            "vertex 8 0 -8 0 1 0 1 0 255 255 255 255"
-        });
-    }*/
 
 }

@@ -29,10 +29,9 @@ public class Interpreter {
     public static Object getVariableType(String value) {
         if (value.startsWith("\"") && value.endsWith("\"")) {
             return value.substring(1, value.length()-1);
-        } else if (isNumeric(value)) {
-            return Float.parseFloat(value);
-            /*if (value.contains(".")) return Float.parseFloat(value);
-            else return Integer.parseInt(value);*/
+        } else {
+            float out = calculate(value);
+            if (out != Float.MAX_VALUE) return out;
         }
         return value;
     }
@@ -57,6 +56,18 @@ public class Interpreter {
 
         if (output.size() == 0) return new String[] { input };
         return output.toArray(new String[output.size()]);
+    }
+
+    public static float calculate(String value) {
+        if (isNumeric(value)) return Float.parseFloat(value);
+        else {
+            try {
+                return (float)PostfixOperation.evaluate(value);
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return Float.MAX_VALUE;
     }
 
 }

@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.mixin;
+package me.pixeldots.scriptedmodels.platform.mixin;
 
 import java.util.UUID;
 
@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import me.pixeldots.scriptedmodels.ScriptedModels;
 import me.pixeldots.scriptedmodels.script.line.Line;
 import me.pixeldots.scriptedmodels.script.line.LineMode;
+import me.pixeldots.scriptedmodels.script.line.LineType;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.AnimalModel;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,6 +28,7 @@ public class AnimalModelMixin {
 
         Object[] extras = new Object[] { entity, matrices, vertices, matrices.peek().getNormalMatrix(), matrices.peek().getPositionMatrix(), overlay, light };
         for (Line line : ScriptedModels.EntityScript.get(uuid).global) {
+            if (line.type == LineType.CANCEL) { info.cancel(); return; }
             line.run(extras, LineMode.RENDER);
         }
     }

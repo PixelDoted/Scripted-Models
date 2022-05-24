@@ -1,0 +1,6 @@
++ math operations
++ short commands (v -> vertex, etc)
+
+
+
+? variables

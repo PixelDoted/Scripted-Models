@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.script.platform;
+package me.pixeldots.scriptedmodels.platform;
 
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;

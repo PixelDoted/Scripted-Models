@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.other;
+package me.pixeldots.scriptedmodels.platform.other;
 
 import java.util.List;
 

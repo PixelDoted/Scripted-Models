@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.mixin;
+package me.pixeldots.scriptedmodels.platform.mixin;
 
 import java.util.UUID;
 

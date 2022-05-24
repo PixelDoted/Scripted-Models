@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.other;
+package me.pixeldots.scriptedmodels.platform.other;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
-import me.pixeldots.scriptedmodels.mixin.IAnimalModelMixin;
+import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
 import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 import me.pixeldots.scriptedmodels.script.line.Line;
