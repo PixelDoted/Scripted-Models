@@ -27,7 +27,6 @@ public class ModelPartMixin {
         if (!ScriptedModels.EntityScript.containsKey(uuid)) return;
 
         ModelPart me = (ModelPart)(Object)this;
-        System.out.println(entity.getName().asString() + " : " + String.valueOf(me));
         if (!ScriptedModels.EntityScript.get(uuid).parts.containsKey(me)) return;
         
         Object[] extras = new Object[] { entity, entry, vertices, entry.getNormalMatrix(), entry.getPositionMatrix(), overlay, light, info };

@@ -51,7 +51,6 @@ public class ScriptedModelsGUI extends GuiHandler {
         for (ModelPart part : ((IAnimalModelMixin)model).getHeadParts()) {
             addButton(new ButtonWidget(220, index*25+35, 100, 20, Text.of("" + index), (btn) -> {
                 selected = part;
-                System.out.println(String.valueOf(part));
             }));
             index++;
         }
