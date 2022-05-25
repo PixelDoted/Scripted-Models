@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.pixeldots.scriptedmodels.main.ScriptedModelsMain"
+      "me.pixeldots.scriptedmodels.network.ScriptedModelsMain"
     ],
     "client": [
       "me.pixeldots.scriptedmodels.ScriptedModels"

@@ -1,11 +1,10 @@
 package me.pixeldots.scriptedmodels;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,16 +22,25 @@ public class ScriptedModels implements ClientModInitializer {
 	public static final String ScriptsPath = "/ScriptedModels";
 
 	public static Map<UUID, ScriptedEntity> EntityScript = new HashMap<>();
-	public static Map<LivingEntity, EntityModel<?>> EntityModels = new HashMap<>();
 	public static LivingEntity Rendering_Entity;
 
 	public static MinecraftClient minecraft;
+	public static ClientPlayerEntity clientPlayer;
+	public static boolean isConnectedToWorld = false;
 
 	@Override
 	public void onInitializeClient() {
 		LOGGER.info("Hello Fabric world!");
 		KeyBindings.registerKeyBindings();
 		minecraft = MinecraftClient.getInstance();
+
+		ClientTickEvents.END_CLIENT_TICK.register(c -> {
+			if (c.player == null && isConnectedToWorld) { 
+				isConnectedToWorld = false;
+				EntityScript.clear();
+				Rendering_Entity = null;
+			} else if (c.player != null && !isConnectedToWorld) isConnectedToWorld = true;
+		});
 	}
 
 }

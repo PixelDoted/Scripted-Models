@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
+import me.pixeldots.scriptedmodels.platform.FabricUtils;
 import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
 import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
@@ -18,7 +19,7 @@ import net.minecraft.text.Text;
 
 public class ScriptedModelsGUI extends GuiHandler {
 
-    public ModelPart selected;
+    public ModelPart selected = null;
 
     public ScriptedModelsGUI() {
         super("Scripted Models");
@@ -27,7 +28,7 @@ public class ScriptedModelsGUI extends GuiHandler {
     @Override
     public void init() {    
         LivingEntity entity = ScriptedModels.minecraft.player;
-        AnimalModel<?> model = (AnimalModel<?>)ScriptedModels.EntityModels.get(entity);
+        AnimalModel<?> model = (AnimalModel<?>)FabricUtils.getModel(entity);
         UUID uuid = entity.getUuid();
 
         addButton(new ButtonWidget(5, 5, 100, 20, Text.of("remove script"), (btn) -> {
@@ -46,12 +47,13 @@ public class ScriptedModelsGUI extends GuiHandler {
             index++;
         }
 
-        int index2 = 0;
+        index = 0;
         for (ModelPart part : ((IAnimalModelMixin)model).getHeadParts()) {
-            addButton(new ButtonWidget(220, index2*25+35, 100, 20, Text.of("" + index2), (btn) -> {
+            addButton(new ButtonWidget(220, index*25+35, 100, 20, Text.of("" + index), (btn) -> {
                 selected = part;
+                System.out.println(String.valueOf(part));
             }));
-            index2++;
+            index++;
         }
 
         int y = 0;
@@ -72,10 +74,11 @@ public class ScriptedModelsGUI extends GuiHandler {
         try {
             stream = new FileInputStream(file);
             String[] split = new String(stream.readAllBytes()).split("\n");
-
+            
             if (selected == null) ScriptedModels.EntityScript.get(uuid).global = Interpreter.compile(split);
             else ScriptedModels.EntityScript.get(uuid).parts.put(selected, Interpreter.compile(split));
         } catch (IOException ex) {
+            ex.printStackTrace();
         } finally {
             try { stream.close(); } catch (IOException e) {}
         }

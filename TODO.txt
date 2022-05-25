@@ -1,6 +1,9 @@
-+ math operations
-+ short commands (v -> vertex, etc)
++ fix modelparts fail to run scripts after leaving then entering a world
 
 
 
 ? variables
+
+old:
++ math operations
++ short commands (v -> vertex, etc)

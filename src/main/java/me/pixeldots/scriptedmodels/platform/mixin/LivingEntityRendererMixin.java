@@ -20,8 +20,6 @@ public class LivingEntityRendererMixin {
     @Inject(method = "render", at = @At("HEAD"))
     public void render(LivingEntity livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo info) {
         ScriptedModels.Rendering_Entity = livingEntity;
-        if (!ScriptedModels.EntityModels.containsKey(livingEntity))
-            ScriptedModels.EntityModels.put(livingEntity, ((LivingEntityRenderer<?,?>)(Object)this).getModel());
     }
 
     @Inject(method = "hasLabel", at = @At("HEAD"), cancellable = true)

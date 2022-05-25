@@ -18,7 +18,7 @@ import net.minecraft.entity.LivingEntity;
 
 @Mixin(ModelPart.class)
 public class ModelPartMixin {
-    
+
     @Inject(method = "renderCuboids", at = @At("HEAD"), cancellable = true)
     public void renderCuboids(MatrixStack.Entry entry, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, CallbackInfo info) {
         if (ScriptedModels.Rendering_Entity == null) return;
@@ -27,6 +27,7 @@ public class ModelPartMixin {
         if (!ScriptedModels.EntityScript.containsKey(uuid)) return;
 
         ModelPart me = (ModelPart)(Object)this;
+        System.out.println(entity.getName().asString() + " : " + String.valueOf(me));
         if (!ScriptedModels.EntityScript.get(uuid).parts.containsKey(me)) return;
         
         Object[] extras = new Object[] { entity, entry, vertices, entry.getNormalMatrix(), entry.getPositionMatrix(), overlay, light, info };
