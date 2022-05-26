@@ -5,12 +5,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+import me.pixeldots.scriptedmodels.ClientHelper;
 import me.pixeldots.scriptedmodels.ScriptedModels;
 import me.pixeldots.scriptedmodels.platform.FabricUtils;
 import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
-import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
-import me.pixeldots.scriptedmodels.script.line.Line;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.AnimalModel;
@@ -20,6 +19,7 @@ import net.minecraft.text.Text;
 public class ScriptedModelsGUI extends GuiHandler {
 
     public ModelPart selected = null;
+    public int selected_id = -1;
 
     public ScriptedModelsGUI() {
         super("Scripted Models");
@@ -32,25 +32,28 @@ public class ScriptedModelsGUI extends GuiHandler {
         UUID uuid = entity.getUuid();
 
         addButton(new ButtonWidget(5, 5, 100, 20, Text.of("remove script"), (btn) -> {
-            if (selected == null) ScriptedModels.EntityScript.get(uuid).global = new Line[0];
-            else ScriptedModels.EntityScript.get(uuid).parts.remove(selected);
+            ClientHelper.remove_script(entity.getUuid(), selected, selected_id);
         }));
         addButton(new ButtonWidget(110, 5, 100, 20, Text.of("reset"), (btn) -> {
-            ScriptedModels.EntityScript.remove(entity.getUuid());
+            ClientHelper.reset_entity(entity.getUuid());
         }));
 
         int index = 0;
         for (ModelPart part : ((IAnimalModelMixin)model).getBodyParts()) {
+            final int num = index;
             addButton(new ButtonWidget(110, index*25+35, 100, 20, Text.of("" + index), (btn) -> {
                 selected = part;
+                selected_id = num;
             }));
             index++;
         }
 
         index = 0;
         for (ModelPart part : ((IAnimalModelMixin)model).getHeadParts()) {
+            final int num = index;
             addButton(new ButtonWidget(220, index*25+35, 100, 20, Text.of("" + index), (btn) -> {
                 selected = part;
+                selected_id = num+100;
             }));
             index++;
         }
@@ -59,23 +62,24 @@ public class ScriptedModelsGUI extends GuiHandler {
         File directory = new File(ScriptedModels.minecraft.runDirectory.getAbsolutePath() + ScriptedModels.ScriptsPath);
         for (File file : directory.listFiles()) {
             addButton(new ButtonWidget(5, y*25+35, 100, 20, Text.of(file.getName()), (btn) -> {
-                readFile(file, uuid);
+                readFile(file, uuid, model);
             }));
             y++;
         }
     }
 
-    public void readFile(File file, UUID uuid) {
+    public void readFile(File file, UUID uuid, AnimalModel<?> model) {
         if (!ScriptedModels.EntityScript.containsKey(uuid))
             ScriptedModels.EntityScript.put(uuid, new ScriptedEntity());
 
         FileInputStream stream = null;
         try {
             stream = new FileInputStream(file);
-            String[] split = new String(stream.readAllBytes()).split("\n");
+            //String[] split = new String(stream.readAllBytes()).split("\n");
             
-            if (selected == null) ScriptedModels.EntityScript.get(uuid).global = Interpreter.compile(split);
-            else ScriptedModels.EntityScript.get(uuid).parts.put(selected, Interpreter.compile(split));
+            ClientHelper.change_script(uuid, selected, selected_id, new String(stream.readAllBytes()));
+            /*if (selected == null) ScriptedModels.EntityScript.get(uuid).global = Interpreter.compile(split);
+            else ScriptedModels.EntityScript.get(uuid).parts.put(selected, Interpreter.compile(split));*/
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
