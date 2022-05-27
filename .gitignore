@@ -5,6 +5,11 @@ build/
 out/
 classes/
 
+examples/Example_Mod/.gradle/
+examples/Example_Mod/build/
+examples/Example_Mod/out/
+examples/Example_Mod/classes/
+
 # eclipse
 
 *.launch
@@ -23,6 +28,12 @@ classes/
 bin/
 .classpath
 .project
+
+examples/Example_Mod/.settings/
+examples/Example_Mod/.vscode/
+examples/Example_Mod/bin/
+examples/Example_Mod/.classpath
+examples/Example_Mod/.project
 
 # macos
 

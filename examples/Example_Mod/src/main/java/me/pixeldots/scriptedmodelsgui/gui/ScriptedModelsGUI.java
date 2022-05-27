@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.platform.other;
+package me.pixeldots.scriptedmodelsgui.gui;
 
 import java.io.File;
 import java.io.FileInputStream;

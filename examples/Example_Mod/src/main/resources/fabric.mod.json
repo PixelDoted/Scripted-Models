@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "scriptedmodelsgui",
+  "version": "${version}",
+
+  "name": "Scripted Models GUI",
+  "description": "This is an example mod for ScriptedModels!",
+  "authors": [
+    "PixelDots"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/scriptedmodelsgui/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.pixeldots.scriptedmodelsgui.ScriptedModelsGui"
+    ]
+  },
+  "mixins": [],
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

@@ -16,7 +16,6 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import me.pixeldots.scriptedmodels.platform.other.KeyBindings;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 
 public class ScriptedModels implements ClientModInitializer {
@@ -33,7 +32,6 @@ public class ScriptedModels implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		KeyBindings.registerKeyBindings();
 		minecraft = MinecraftClient.getInstance();
 
 		Path scriptsPath = Path.of(minecraft.runDirectory.getAbsolutePath() + ScriptsPath);
