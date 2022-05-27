@@ -32,3 +32,25 @@ cancel // cancels the script (hiding the modelpart/entity running this script)
 v -> vertex
 p -> particle
 ```
+
+## Developers
+
+add this to your build.gradle file to use Scripted Models
+```
+repositories {
+    maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
+}
+
+dependencies {
+	modImplementation "maven.modrinth:scripted-models:${project.scripedmodels_version}"
+}
+```
+
+"ClientHelper" has some useful functions for modifying an entity's scripts  
+you can see the (GUI)[https://github.com/PixelDoted/Scripted-Models/blob/master/src/main/java/me/pixeldots/scriptedmodels/platform/other/ScriptedModelsGUI.java] for examples
