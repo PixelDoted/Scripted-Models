@@ -53,4 +53,4 @@ dependencies {
 ```
 
 "ClientHelper" has some useful functions for modifying an entity's scripts  
-you can see the (GUI)[https://github.com/PixelDoted/Scripted-Models/blob/master/src/main/java/me/pixeldots/scriptedmodels/platform/other/ScriptedModelsGUI.java] for examples
+you can see the [GUI](https://github.com/PixelDoted/Scripted-Models/blob/master/src/main/java/me/pixeldots/scriptedmodels/platform/other/ScriptedModelsGUI.java) for examples
