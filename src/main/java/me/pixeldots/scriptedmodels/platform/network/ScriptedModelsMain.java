@@ -38,12 +38,12 @@ public class ScriptedModelsMain implements ModInitializer {
             Properties properties = new Properties();
             try {
                 properties.load(new FileReader(config_path));
-                MaximumScriptLineCount = (int)properties.get("Server.MaximumScriptLineCount");
+                MaximumScriptLineCount = Integer.parseInt((String)properties.get("Server.MaximumScriptLineCount"));
             } catch (IOException | NumberFormatException e) {}
         } else {
             try {
                 Properties properties = new Properties();
-                properties.put("Server.MaximumScriptLineCount", MaximumScriptLineCount);
+                properties.put("Server.MaximumScriptLineCount", String.valueOf(MaximumScriptLineCount));
                 properties.store(new FileWriter(config_path), null);
             } catch (IOException | NumberFormatException e) {}
         }
