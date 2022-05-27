@@ -6,6 +6,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -30,9 +33,15 @@ public class ScriptedModels implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		LOGGER.info("Hello Fabric world!");
 		KeyBindings.registerKeyBindings();
 		minecraft = MinecraftClient.getInstance();
+
+		Path scriptsPath = Path.of(minecraft.runDirectory.getAbsolutePath() + ScriptsPath);
+		if (!Files.exists(scriptsPath)) {
+			try {
+				Files.createDirectory(scriptsPath);
+			} catch (IOException e) {}
+		}
 
 		ClientTickEvents.END_CLIENT_TICK.register(c -> {
 			if (c.player == null && isConnectedToWorld) { 
@@ -41,6 +50,7 @@ public class ScriptedModels implements ClientModInitializer {
 				Rendering_Entity = null;
 			} else if (c.player != null && !isConnectedToWorld) isConnectedToWorld = true;
 		});
+		LOGGER.info("Scripted Models Loaded");
 	}
 
 }

@@ -7,6 +7,7 @@ import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkId
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.text.Text;
 
 public class ServerNetwork {
 
@@ -32,6 +33,10 @@ public class ServerNetwork {
             UUID uuid = senderplayer.getUuid();
             int part_id = buf.readInt();
             String script = buf.readString();
+            if (ScriptedModelsMain.MaximumScriptLineCount != 0 && script.split("\n").length >= ScriptedModelsMain.MaximumScriptLineCount) {
+                senderplayer.sendMessage(Text.of("Script has too many lines"), false);
+                return;
+            }
             
             PacketByteBuf buffer = PacketByteBufs.create();
             buffer.writeUuid(uuid);

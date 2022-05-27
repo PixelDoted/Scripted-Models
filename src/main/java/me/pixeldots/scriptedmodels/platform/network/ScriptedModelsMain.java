@@ -1,7 +1,13 @@
 package me.pixeldots.scriptedmodels.platform.network;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
 import net.fabricmc.api.EnvType;
@@ -13,13 +19,33 @@ import net.minecraft.util.Identifier;
 public class ScriptedModelsMain implements ModInitializer {
 
     public static Map<UUID, EntityData> EntityData = new HashMap<>();
+    public static int MaximumScriptLineCount = 0;
 
     @Override
     public void onInitialize() {
+        handle_config();
+
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
             ServerNetwork.register();
         } else {
             ClientNetwork.register();
+        }
+    }
+
+    public void handle_config() {
+        String config_path = FabricLoader.getInstance().getConfigDir().toFile().getAbsolutePath() + "/ScriptedModels.yml";
+        if (Files.exists(Path.of(config_path))) {
+            Properties properties = new Properties();
+            try {
+                properties.load(new FileReader(config_path));
+                MaximumScriptLineCount = (int)properties.get("Server.MaximumScriptLineCount");
+            } catch (IOException | NumberFormatException e) {}
+        } else {
+            try {
+                Properties properties = new Properties();
+                properties.put("Server.MaximumScriptLineCount", MaximumScriptLineCount);
+                properties.store(new FileWriter(config_path), null);
+            } catch (IOException | NumberFormatException e) {}
         }
     }
 
