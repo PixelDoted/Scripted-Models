@@ -1,6 +1,6 @@
 # Scripted Models
 
-an advanced model editing mod for Minecraft
+an advanced model editing library for Minecraft
 using scripts to render vertices, particles, and visually move the player model
 
 right now Scripted Models is really only used for it's features and speed (compared to Pixel's Character Models)  
