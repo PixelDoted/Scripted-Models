@@ -8,14 +8,12 @@ import net.minecraft.client.model.ModelPart;
 
 public class ScriptedEntity {
     
-    public boolean show_NameTag = true;
-    public Line[] global;
-
+    public Line[] global; // the entity's global script
     public Map<ModelPart, Line[]> parts;
 
     public ScriptedEntity() {
-        parts = new HashMap<>();
         global = new Line[0];
+        parts = new HashMap<>();
     }
 
 }

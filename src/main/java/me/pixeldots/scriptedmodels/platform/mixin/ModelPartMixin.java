@@ -20,7 +20,7 @@ import net.minecraft.entity.LivingEntity;
 public class ModelPartMixin {
 
     @Inject(method = "renderCuboids", at = @At("HEAD"), cancellable = true)
-    public void renderCuboids(MatrixStack.Entry entry, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, CallbackInfo info) {
+    private void renderCuboids(MatrixStack.Entry entry, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, CallbackInfo info) {
         if (ScriptedModels.Rendering_Entity == null) return;
         LivingEntity entity = ScriptedModels.Rendering_Entity;
         UUID uuid = entity.getUuid();

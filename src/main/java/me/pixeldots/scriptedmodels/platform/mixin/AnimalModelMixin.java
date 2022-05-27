@@ -20,7 +20,7 @@ import net.minecraft.entity.LivingEntity;
 public class AnimalModelMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, CallbackInfo info) {
+    private void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, CallbackInfo info) {
         LivingEntity entity = ScriptedModels.Rendering_Entity;
         UUID uuid = entity.getUuid();
 

@@ -33,7 +33,7 @@ public class ScriptedModelsMain implements ModInitializer {
     }
 
     public void handle_config() {
-        String config_path = FabricLoader.getInstance().getConfigDir().toFile().getAbsolutePath() + "/ScriptedModels.yml";
+        String config_path = FabricLoader.getInstance().getConfigDir().toFile().getAbsolutePath() + "/ScriptedModels.conf";
         if (Files.exists(Path.of(config_path))) {
             Properties properties = new Properties();
             try {

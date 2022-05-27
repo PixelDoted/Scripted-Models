@@ -17,7 +17,7 @@ import net.minecraft.entity.LivingEntity;
 public class LivingEntityMixin {
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    public void tick(CallbackInfo info) {
+    private void tick(CallbackInfo info) {
         LivingEntity me = (LivingEntity)(Object)this;
         UUID uuid = me.getUuid();
 

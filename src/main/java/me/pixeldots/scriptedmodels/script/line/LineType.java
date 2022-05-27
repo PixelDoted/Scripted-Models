@@ -51,10 +51,10 @@ public enum LineType {
         }
     }
 
-    public static float getF(Object[] data, int index) {
+    private static float getF(Object[] data, int index) {
         return LineUtils.getFloat(data, index);
     }
-    public static String getS(Object[] data, int index) {
+    private static String getS(Object[] data, int index) {
         return LineUtils.getString(data, index);
     }
 

@@ -10,23 +10,40 @@ import me.pixeldots.scriptedmodels.script.line.LineType;
 
 public class Interpreter {
     
-    public static Line[] compile(String[] input) {
-        List<Line> lines = new ArrayList<>();
-        for (String line : input) {
-            String[] args = split(line);
-            Object[] data = new Object[args.length <= 1 ? 0 : args.length-1];
-            for (int i = 1; i < args.length; i++) {
-                data[i-1] = getVariableType(args[i]);
-            }
-            LineType type = LineType.getType(args[0]);
-            if (type == null) continue;
+    /**
+     * Compiles a list of lines
+     * @param lines the scripts lines
+     * @return the compiled script
+     */
+    public static Line[] compile(String[] lines) {
+        List<Line> output = new ArrayList<>();
+        for (String line : lines) {
+            Line compiled = compile_line(line);
+            if (compiled == null) continue; // skip if the compilation failed
 
-            lines.add(new Line(type, data));
+            output.add(compiled);
         }
-        return lines.toArray(new Line[lines.size()]);
+        return output.toArray(new Line[output.size()]);
     }
 
-    public static Object getVariableType(String value) {
+    /**
+     * Compiles a line
+     * @param line the line to compile
+     * @return the compiled line
+     */
+    public static Line compile_line(String line) {
+        String[] args = split(line); // split the line into it's arguments
+        Object[] data = new Object[args.length <= 1 ? 0 : args.length-1];
+        for (int i = 1; i < args.length; i++) {
+            data[i-1] = getVariableType(args[i]); // get variables from the arguments
+        }
+        LineType type = LineType.getType(args[0]); // get the Line Type from the first argument
+        if (type == null) return null; // return null if it failed
+
+        return new Line(type, data);
+    }
+
+    private static Object getVariableType(String value) {
         if (value.startsWith("\"") && value.endsWith("\"")) {
             return value.substring(1, value.length()-1);
         } else {
@@ -37,7 +54,7 @@ public class Interpreter {
     }
 
     // Utillities
-    public static boolean isNumeric(String value) {
+    private static boolean isNumeric(String value) {
         try  {
             Float.parseFloat(value);
             return true;
@@ -45,7 +62,7 @@ public class Interpreter {
         return false;
     }
 
-    public static String[] split(String input) { // splits the string at all spaces, unless in quotation marks
+    private static String[] split(String input) { // splits the string at all spaces, unless in quotation marks
         List<String> output = new ArrayList<>();
         
         Pattern regex = Pattern.compile("[^\\s\"']+|\"[^\"]*\"|'[^']*'");
@@ -58,7 +75,7 @@ public class Interpreter {
         return output.toArray(new String[output.size()]);
     }
 
-    public static float calculate(String value) {
+    private static float calculate(String value) {
         if (isNumeric(value)) return Float.parseFloat(value);
         else {
             try {

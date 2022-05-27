@@ -7,11 +7,11 @@ import java.util.Stack;
 // http://faculty.cs.niu.edu/~hutchins/csci241/eval.htm
 public class PostfixOperation {
     
-    public static boolean isOperator(String s) {
+    private static boolean isOperator(String s) {
         return s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/") || s.equals("(") || s.equals(")");
     }
 
-    public static int getPrecedence(String s) {
+    private static int getPrecedence(String s) {
         switch (s) {
             case "+":
             case "-":
@@ -27,7 +27,7 @@ public class PostfixOperation {
         return -1;
     }
 
-    public static boolean lowerPrecedence(String a, String b) {
+    private static boolean lowerPrecedence(String a, String b) {
         return getPrecedence(a) <= getPrecedence(b);
     }
 
