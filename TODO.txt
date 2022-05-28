@@ -2,6 +2,7 @@
 
 - modelpart particles
 - maximum entity distance to run scripts
+- scale particle position with pehkui scale without modImplementation, if possible
 
 ? variables
 

@@ -13,7 +13,7 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
 
-  "license": "CC0-1.0",
+  "license": "LGPL-3.0",
   "icon": "assets/scriptedmodels/icon.png",
 
   "environment": "*",
@@ -35,6 +35,9 @@
     "java": ">=17"
   },
   "suggests": {
-    "another-mod": "*"
-  }
+    "pixel's character models": "*"
+  },
+	"custom": {
+		"modmenu": { "badges": [ "library" ] }
+	}
 }
