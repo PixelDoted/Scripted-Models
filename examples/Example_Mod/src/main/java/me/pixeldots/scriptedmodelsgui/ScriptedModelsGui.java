@@ -1,8 +1,14 @@
 package me.pixeldots.scriptedmodelsgui;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.MinecraftClient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import me.pixeldots.scriptedmodelsgui.gui.KeyBindings;
 
@@ -15,7 +21,7 @@ public class ScriptedModelsGui implements ClientModInitializer {
 		LOGGER.info("Hello ScriptedModels GUI!");
 		KeyBindings.registerKeyBindings();
 
-		Path scriptsPath = Path.of(minecraft.runDirectory.getAbsolutePath() + ScriptsPath);
+		Path scriptsPath = Path.of(MinecraftClient.getInstance().runDirectory.getAbsolutePath() + ScriptsPath);
 		if (!Files.exists(scriptsPath)) {
 			try {
 				Files.createDirectory(scriptsPath);

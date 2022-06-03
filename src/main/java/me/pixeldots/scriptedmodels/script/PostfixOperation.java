@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.checkerframework.checker.units.qual.A;
+
 // http://faculty.cs.niu.edu/~hutchins/csci241/eval.htm
 public class PostfixOperation {
     
@@ -32,24 +34,21 @@ public class PostfixOperation {
     }
 
     public static float evaluate(String input) {
-        String a = input.replaceAll("\\(", " \\( ").replaceAll("\\)", " \\) ").replaceAll("\\^", " \\^ ")
-            .replaceAll("\\+", " \\+ ").replaceAll("\\*", " \\* ").replaceAll("/", " / ").trim();
-        String b = "";
+        input = input.trim();
+        String a = "";
 
-        if (a.contains("-")) { // skip the for-loop if there is no minus in the input
-            char last = ' ';
-            for (int i = 0; i < a.length(); i++) {
-                char c = a.charAt(i);
+        char last = ' ';
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
 
-                if (c == '-' && last >= '0' && last <= '9') 
-                    b += ' ' + c + ' ';
-                else b += c;
+            if ((c == '-' && last >= '0' && last <= '9') || c == '(' || c == ')' || c == '^' || c == '+' || c == '*' || c == '/') {
+               a += " " + c + " ";
+            } else a += c;
 
-                last = c;
-            }
+            last = c;
         }
         
-        return evaluate(b.split(" "));
+        return evaluate(a.split(" "));
     }
 
     public static float evaluate(String[] Q) {
