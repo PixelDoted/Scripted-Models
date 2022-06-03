@@ -82,7 +82,7 @@ public class ClientHelper {
         int index = 100;
 
         for (ModelPart part : mixin.getHeadParts()) {
-            if (modelpart == part) return index+100;
+            if (modelpart == part) return index;
             index++;
         }
 

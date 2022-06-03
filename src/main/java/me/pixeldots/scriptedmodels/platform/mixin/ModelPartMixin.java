@@ -30,7 +30,7 @@ public class ModelPartMixin {
         ModelPart me = (ModelPart)(Object)this;
         if (!ScriptedModels.EntityScript.get(uuid).parts.containsKey(me)) return;
         
-        ModelPartExtras extras = new ModelPartExtras().set(entity, entry, vertices, entry.getNormalMatrix(), entry.getPositionMatrix(), overlay, light, info, (ModelPart)(Object)this);
+        ModelPartExtras extras = new ModelPartExtras().set(entity, entry, vertices, entry.getNormalMatrix(), entry.getPositionMatrix(), overlay, light, info, me);
         for (Line line : ScriptedModels.EntityScript.get(uuid).parts.get(me)) {
             if (line.type == LineType.CANCEL) { info.cancel(); return; }
             line.run(extras, LineMode.RENDER);

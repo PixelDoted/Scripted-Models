@@ -85,7 +85,7 @@ public class FabricFunctions {
 
     public static void angle(Object extras, float pitch, float yaw, float roll) {
         if (extras instanceof ModelPartExtras)
-            ((ModelPartExtras)extras).modelPart.setAngles(pitch, yaw, roll);
+            ((ModelPartExtras)extras).modelPart.setAngles((float)Math.toRadians(pitch), (float)Math.toRadians(yaw), (float)Math.toRadians(roll));
     }
 
 }
