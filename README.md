@@ -26,6 +26,7 @@ vertex <x> <y> <z> <normal x> <normal y> <normal z> <u> <v> <red> <green> <blue>
 translate <x> <y> <z> // visualy moves an entity/modelpart
 scale <x> <y> <z> // visualy scales an entity/modelpart
 rotate <x> <y> <z> // visualy rotates an entity/modelpart
+angle <pitch> <yaw> <roll> // rotates a modelpart
 particle <particle type> <x> <y> <z> <velocity x> <velocity y> <velocity z> // creates a particle
 cancel // cancels the script (hiding the modelpart/entity running this script)
 

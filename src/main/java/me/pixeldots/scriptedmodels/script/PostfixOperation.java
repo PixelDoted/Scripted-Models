@@ -36,18 +36,17 @@ public class PostfixOperation {
             .replaceAll("\\+", " \\+ ").replaceAll("\\*", " \\* ").replaceAll("/", " / ").trim();
         String b = "";
 
-        char last = ' ';
-        for (int i = 0; i < a.length(); i++) {
-            char c = a.charAt(i);
+        if (a.contains("-")) { // skip the for-loop if there is no minus in the input
+            char last = ' ';
+            for (int i = 0; i < a.length(); i++) {
+                char c = a.charAt(i);
 
-            if (c == '-' && last >= '0' && last <= '9') {
-                b += ' ';
-                b += c;
-                b += ' ';
-            } else 
-                b += c;
+                if (c == '-' && last >= '0' && last <= '9') 
+                    b += ' ' + c + ' ';
+                else b += c;
 
-            last = c;
+                last = c;
+            }
         }
         
         return evaluate(b.split(" "));

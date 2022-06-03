@@ -1,4 +1,5 @@
-
++ add functions to decompile a line/script
++ "angle <pitch> <yaw> <roll>" for modelparts
 
 - modelpart particles
 - scale particle position with pehkui scale without modImplementation, if possible

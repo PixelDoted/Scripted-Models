@@ -1,5 +1,8 @@
 package me.pixeldots.scriptedmodels.platform;
 
+import me.pixeldots.scriptedmodels.platform.other.IExtras;
+import me.pixeldots.scriptedmodels.platform.other.LivingEntityExtras;
+import me.pixeldots.scriptedmodels.platform.other.ModelPartExtras;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -15,9 +18,10 @@ import net.minecraft.world.World;
 public class FabricFunctions {
     
     // tick //
-    public static void particle(Object[] extra, String type, float x, float y, float z, float vx, float vy, float vz) {
-        LivingEntity entity = (LivingEntity)extra[0];
-        World world = (World)extra[1];
+    public static void particle(Object extras, String type, float x, float y, float z, float vx, float vy, float vz) {
+        LivingEntityExtras leExtras = (LivingEntityExtras)extras;
+        LivingEntity entity = leExtras.entity;
+        World world = leExtras.world;
         Identifier id = new Identifier(type.toLowerCase());
 
         if (!Registry.PARTICLE_TYPE.containsId(id)) { return; }
@@ -25,45 +29,49 @@ public class FabricFunctions {
     }
 
     /// render //
-    public static void vertex(Object[] extra, float x, float y, float z, float nx, float ny, float nz, float u, float v, float r, float g, float b, float a) {
-        VertexConsumer vc = (VertexConsumer)extra[2];
-        Matrix3f normal = (Matrix3f)extra[3];
-        Matrix4f model = (Matrix4f)extra[4];
-        int overlay = (int)extra[5];
-        int light = (int)extra[6];
+    public static void vertex(Object extras, float x, float y, float z, float nx, float ny, float nz, float u, float v, float r, float g, float b, float a) {
+        IExtras iExtras = (IExtras)extras;
+        VertexConsumer vc = iExtras.getVertexConsumer();
+        Matrix3f normal = iExtras.getMatrixNormal();
+        Matrix4f position = iExtras.getMatrixPosition();
+        int overlay = iExtras.getOverlay();
+        int light = iExtras.getLight();
         
-        vc.vertex(model, x/16, y/16, z/16).color(r/255F, g/255F, b/255F, a/255F).texture(u, v).overlay(overlay).light(light).normal(normal, nx, ny, nz).next();
+        vc.vertex(position, x/16, y/16, z/16).color(r/255F, g/255F, b/255F, a/255F).texture(u, v).overlay(overlay).light(light).normal(normal, nx, ny, nz).next();
     }
 
     // transform
-    public static void translate(Object[] extra, float x, float y, float z) {
-        if (extra[1] instanceof MatrixStack) {
-            MatrixStack matrices = (MatrixStack)extra[1];
+    public static void translate(Object extras, float x, float y, float z) {
+        Object matrix = ((IExtras)extras).getMatrix();
+        if (matrix instanceof MatrixStack) {
+            MatrixStack matrices = (MatrixStack)matrix;
             matrices.translate(x, y, z);
         } else {
-            MatrixStack.Entry entry = (MatrixStack.Entry)extra[1];
+            MatrixStack.Entry entry = (MatrixStack.Entry)matrix;
             entry.getPositionMatrix().multiplyByTranslation(x, y, z);
         }
     }
 
-    public static void rotate(Object[] extra, float x, float y, float z) {
-        if (extra[1] instanceof MatrixStack) {
-            MatrixStack matrices = (MatrixStack)extra[1];
+    public static void rotate(Object extras, float x, float y, float z) {
+        Object matrix = ((IExtras)extras).getMatrix();
+        if (matrix instanceof MatrixStack) {
+            MatrixStack matrices = (MatrixStack)matrix;
             matrices.multiply(Quaternion.fromEulerXyz(x, y, z));
         } else {
-            MatrixStack.Entry entry = (MatrixStack.Entry)extra[1];
+            MatrixStack.Entry entry = (MatrixStack.Entry)matrix;
             Quaternion quaternion = Quaternion.fromEulerXyz(x, y, z);
             entry.getPositionMatrix().multiply(quaternion);
             entry.getNormalMatrix().multiply(quaternion);
         }
     }
 
-    public static void scale(Object[] extra, float x, float y, float z) {
-        if (extra[1] instanceof MatrixStack) {
-            MatrixStack matrices = (MatrixStack)extra[1];
+    public static void scale(Object extras, float x, float y, float z) {
+        Object matrix = ((IExtras)extras).getMatrix();
+        if (matrix instanceof MatrixStack) {
+            MatrixStack matrices = (MatrixStack)matrix;
             matrices.scale(x, y, z);
         } else {
-            MatrixStack.Entry entry = (MatrixStack.Entry)extra[1];
+            MatrixStack.Entry entry = (MatrixStack.Entry)matrix;
             entry.getPositionMatrix().multiply(Matrix4f.scale(x, y, z));
             if (x == y && y == z) {
                 if (x > 0.0f) return;
@@ -73,6 +81,11 @@ public class FabricFunctions {
             float i = MathHelper.fastInverseCbrt(f * g * h);
             entry.getNormalMatrix().multiply(Matrix3f.scale(i * f, i * g, i * h));
         }
+    }
+
+    public static void angle(Object extras, float pitch, float yaw, float roll) {
+        if (extras instanceof ModelPartExtras)
+            ((ModelPartExtras)extras).modelPart.setAngles(pitch, yaw, roll);
     }
 
 }

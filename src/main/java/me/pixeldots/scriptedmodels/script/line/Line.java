@@ -5,9 +5,9 @@ public class Line {
     public LineType type;
     public Object[] data;
 
-    public void run(Object[] extra, LineMode mode) {
+    public void run(Object extras, LineMode mode) {
         if (type.mode != mode) return;
-        type.func.run(data, extra);
+        type.func.run(data, extras);
     }
 
     public Line(LineType _type, Object[] _data) {

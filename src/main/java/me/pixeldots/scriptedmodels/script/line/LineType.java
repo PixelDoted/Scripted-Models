@@ -22,6 +22,9 @@ public enum LineType {
     SCALE(LineMode.RENDER, (data, extras) -> { 
         FabricFunctions.scale(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
     }),
+    ANGLE(LineMode.RENDER, (data, extras) -> {
+        FabricFunctions.angle(extras, (float)data[0], (float)data[1], (float)data[2]);
+    }),
     CANCEL(LineMode.GLOBAL, (data, extras) -> {});
 
     LineMode mode;
@@ -59,6 +62,6 @@ public enum LineType {
     }
 
     public interface LineFunc {
-        void run(Object[] data, Object[] extras);
+        void run(Object[] data, Object extras);
     }
 }

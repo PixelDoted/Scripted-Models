@@ -43,6 +43,36 @@ public class Interpreter {
         return new Line(type, data);
     }
 
+    /**
+     * Decompiles a compiled script
+     * @param script the script to decompile
+     * @return the decompiled script
+     */
+    public static String decompile(Line[] script) {
+        String output = "";
+        for (Line line : script) {
+            String decompiled = line.type.toString();
+            for (Object variable : line.data) {
+                decompiled += " " + variable.toString();
+            }
+            output += decompiled + "\n";
+        }
+        return output.trim();
+    }
+
+    /**
+     * Decompiles a compiled line
+     * @param line the line to decompile
+     * @return the decompiled line
+     */
+    public static String decompile_line(Line line) {
+        String decompiled = line.type.toString();
+        for (Object variable : line.data) {
+            decompiled += " " + variable.toString();
+        }
+        return decompiled;
+    }
+
     private static Object getVariableType(String value) {
         if (value.startsWith("\"") && value.endsWith("\"")) {
             return value.substring(1, value.length()-1);
