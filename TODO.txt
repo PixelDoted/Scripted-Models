@@ -1,6 +1,5 @@
-+ remove script argument from ClientHelper.decompile_script
 
-- return "" if there is no script to decompile ClientHelper.decompile_script
+
 
 ? variables
 ? maximum entity distance to run scripts

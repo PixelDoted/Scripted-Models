@@ -80,7 +80,10 @@ public class ClientHelper {
             return "";
         
         if (modelpart == null) return Interpreter.decompile(ScriptedModels.EntityScript.get(uuid).global);
-        else return Interpreter.decompile(ScriptedModels.EntityScript.get(uuid).parts.get(modelpart));
+        else {
+            if (!ScriptedModels.EntityScript.get(uuid).parts.containsKey(modelpart)) return "";
+            return Interpreter.decompile(ScriptedModels.EntityScript.get(uuid).parts.get(modelpart));
+        }
     }
 
     private static void change_script(UUID uuid, ModelPart modelpart, String script) {
