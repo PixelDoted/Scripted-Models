@@ -73,10 +73,9 @@ public class ClientHelper {
      * decompiles the entity's/modelpart's script
      * @param uuid the entity's uuid
      * @param modelpart the entity's modelpart (null for global script)
-     * @param script the entity's script
      * @return the decompiled script
      */
-    public static String decompile_script(UUID uuid, ModelPart modelpart, String script) {
+    public static String decompile_script(UUID uuid, ModelPart modelpart) {
         if (!ScriptedModels.EntityScript.containsKey(uuid))
             return "";
         

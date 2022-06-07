@@ -2,3 +2,13 @@ vertex -8 0 -8 0 1 0 0 0 255 255 255 255
 vertex -8 0 8 0 1 0 0 1 255 255 255 255
 vertex 8 0 8 0 1 0 1 1 255 255 255 255
 vertex 8 0 -8 0 1 0 1 0 255 255 255 255
+
+// Variables (not implemented)
+setvar i 0 // if a the variable "i" doesn't exsist create it and/or set the variable "i" to 0
+setvar i i-1 // set "i" to "i"-1 = 0-1
+// setvar only runs on tick "frames", 20 ticks per seconds = 20 setvar calls per second
+
+// Global Variables
+tps = 20 // the current ticks per second
+fps = 60 // the current frames per second
+mspf = 0.016666667 // 1/frames per second > milliseconds per frame

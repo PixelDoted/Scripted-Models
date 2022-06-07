@@ -5,11 +5,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+import me.pixeldots.scriptedmodelsgui.ScriptedModelsGui;
 import me.pixeldots.scriptedmodels.ClientHelper;
 import me.pixeldots.scriptedmodels.ScriptedModels;
 import me.pixeldots.scriptedmodels.platform.FabricUtils;
 import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.AnimalModel;
@@ -37,6 +39,12 @@ public class ScriptedModelsGUI extends GuiHandler {
         addButton(new ButtonWidget(110, 5, 100, 20, Text.of("reset"), (btn) -> {
             ClientHelper.reset_entity(entity.getUuid());
         }));
+        addButton(new ButtonWidget(220, 5, 100, 20, Text.of("decompile"), (btn) -> {
+            String[] lines = ClientHelper.decompile_script(entity.getUuid(), selected).split("\n");
+            for (String line : lines) {
+                MinecraftClient.getInstance().player.sendMessage(Text.of(line), false);
+            }
+        }));
 
         int index = 0;
         for (ModelPart part : ((IAnimalModelMixin)model).getBodyParts()) {
@@ -59,7 +67,7 @@ public class ScriptedModelsGUI extends GuiHandler {
         }
 
         int y = 0;
-        File directory = new File(ScriptedModels.minecraft.runDirectory.getAbsolutePath() + ScriptedModels.ScriptsPath);
+        File directory = new File(ScriptedModels.minecraft.runDirectory.getAbsolutePath() + ScriptedModelsGui.ScriptsPath);
         for (File file : directory.listFiles()) {
             addButton(new ButtonWidget(5, y*25+35, 100, 20, Text.of(file.getName()), (btn) -> {
                 readFile(file, uuid, model);

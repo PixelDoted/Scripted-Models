@@ -1,7 +1,6 @@
-+ add functions to decompile a line/script
-+ "angle <pitch> <yaw> <roll>" for modelparts
++ remove script argument from ClientHelper.decompile_script
 
-
+- return "" if there is no script to decompile ClientHelper.decompile_script
 
 ? variables
 ? maximum entity distance to run scripts
@@ -11,3 +10,5 @@ old:
 + short commands (v -> vertex, etc)
 + fix modelparts failing to run scripts after leaving then entering a world
 + server maximum script length
++ add functions to decompile a line/script
++ "angle <pitch> <yaw> <roll>" for modelparts
