@@ -22,5 +22,15 @@ public class LivingEntityExtras implements IExtras {
     @Override public Matrix4f getMatrixPosition() { return null; }
     @Override public int getOverlay() { return 0; }
     @Override public int getLight() { return 0; }
+
+    @Override
+    public LivingEntity getEntity() {
+        return this.entity;
+    }
+
+    @Override
+    public World getWorld() {
+        return this.world;
+    }
     
 }

@@ -30,6 +30,7 @@ public class ClientNetwork {
             if (model == null) return;
             
             scripted.global = Interpreter.compile(buf.readString().split("\n"));
+
             int part_count = buf.readInt();
             for (int i = 0; i < part_count; i++) {
                 String part_script = buf.readString();

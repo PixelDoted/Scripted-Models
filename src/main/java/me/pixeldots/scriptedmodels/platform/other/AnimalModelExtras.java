@@ -5,6 +5,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.world.World;
 
 public class AnimalModelExtras implements IExtras {
 
@@ -51,5 +52,12 @@ public class AnimalModelExtras implements IExtras {
     public int getLight() {
         return light;
     }
+
+    @Override 
+    public LivingEntity getEntity() { 
+        return this.entity;
+    }
+    
+    @Override public World getWorld() { return null; }
     
 }

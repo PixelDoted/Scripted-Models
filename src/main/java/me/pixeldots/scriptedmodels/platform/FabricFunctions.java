@@ -1,8 +1,7 @@
 package me.pixeldots.scriptedmodels.platform;
 
 import me.pixeldots.scriptedmodels.platform.other.IExtras;
-import me.pixeldots.scriptedmodels.platform.other.LivingEntityExtras;
-import me.pixeldots.scriptedmodels.platform.other.ModelPartExtras;
+import me.pixeldots.scriptedmodels.platform.other.ModelPartRenderExtras;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -17,11 +16,13 @@ import net.minecraft.world.World;
 
 public class FabricFunctions {
     
+    // global //
+
     // tick //
     public static void particle(Object extras, String type, float x, float y, float z, float vx, float vy, float vz) {
-        LivingEntityExtras leExtras = (LivingEntityExtras)extras;
-        LivingEntity entity = leExtras.entity;
-        World world = leExtras.world;
+        IExtras iExtras = (IExtras)extras;
+        LivingEntity entity = iExtras.getEntity();
+        World world = iExtras.getWorld();
         Identifier id = new Identifier(type.toLowerCase());
 
         if (!Registry.PARTICLE_TYPE.containsId(id)) { return; }
@@ -84,8 +85,8 @@ public class FabricFunctions {
     }
 
     public static void angle(Object extras, float pitch, float yaw, float roll) {
-        if (extras instanceof ModelPartExtras)
-            ((ModelPartExtras)extras).modelPart.setAngles((float)Math.toRadians(pitch), (float)Math.toRadians(yaw), (float)Math.toRadians(roll));
+        if (extras instanceof ModelPartRenderExtras)
+            ((ModelPartRenderExtras)extras).modelPart.setAngles((float)Math.toRadians(pitch), (float)Math.toRadians(yaw), (float)Math.toRadians(roll));
     }
 
 }

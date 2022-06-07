@@ -84,14 +84,6 @@ public class Interpreter {
     }
 
     // Utillities
-    private static boolean isNumeric(String value) {
-        try  {
-            Float.parseFloat(value);
-            return true;
-        } catch (NumberFormatException ex) {}
-        return false;
-    }
-
     private static String[] split(String input) { // splits the string at all spaces, unless in quotation marks
         List<String> output = new ArrayList<>();
         
@@ -106,7 +98,7 @@ public class Interpreter {
     }
 
     private static float calculate(String value) {
-        if (isNumeric(value)) return Float.parseFloat(value);
+        if (PostfixOperation.isNumeric(value)) return Float.parseFloat(value);
         else {
             try {
                 return (float)PostfixOperation.evaluate(value);

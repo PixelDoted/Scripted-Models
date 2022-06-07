@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
-import me.pixeldots.scriptedmodels.platform.other.ModelPartExtras;
+import me.pixeldots.scriptedmodels.platform.other.ModelPartRenderExtras;
 import me.pixeldots.scriptedmodels.script.line.Line;
 import me.pixeldots.scriptedmodels.script.line.LineMode;
 import me.pixeldots.scriptedmodels.script.line.LineType;
@@ -30,7 +30,7 @@ public class ModelPartMixin {
         ModelPart me = (ModelPart)(Object)this;
         if (!ScriptedModels.EntityScript.get(uuid).parts.containsKey(me)) return;
         
-        ModelPartExtras extras = new ModelPartExtras().set(entity, entry, vertices, entry.getNormalMatrix(), entry.getPositionMatrix(), overlay, light, info, me);
+        ModelPartRenderExtras extras = new ModelPartRenderExtras().set(entity, entry, vertices, entry.getNormalMatrix(), entry.getPositionMatrix(), overlay, light, info, me);
         for (Line line : ScriptedModels.EntityScript.get(uuid).parts.get(me)) {
             if (line.type == LineType.CANCEL) { info.cancel(); return; }
             line.run(extras, LineMode.RENDER);

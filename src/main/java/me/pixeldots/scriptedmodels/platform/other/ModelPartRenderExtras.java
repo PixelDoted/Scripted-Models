@@ -8,8 +8,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.world.World;
 
-public class ModelPartExtras implements IExtras {
+public class ModelPartRenderExtras implements IExtras {
     public LivingEntity entity;
     public MatrixStack.Entry matrixEntry;
     public VertexConsumer vertexConsumer;
@@ -20,7 +21,7 @@ public class ModelPartExtras implements IExtras {
     public CallbackInfo info;
     public ModelPart modelPart;
 
-    public ModelPartExtras set(LivingEntity _entity, MatrixStack.Entry _entry, VertexConsumer _vertex, Matrix3f _normal, Matrix4f _position, int _overlay, int _light, CallbackInfo _info, ModelPart _part) {
+    public ModelPartRenderExtras set(LivingEntity _entity, MatrixStack.Entry _entry, VertexConsumer _vertex, Matrix3f _normal, Matrix4f _position, int _overlay, int _light, CallbackInfo _info, ModelPart _part) {
         this.entity = _entity; this.matrixEntry = _entry; this.vertexConsumer = _vertex; this.matrixNormal = _normal;
         this.matrixPosition = _position; this.overlay = _overlay; this.light = _light; this.info = _info; this.modelPart = _part;
         return this;
@@ -55,4 +56,11 @@ public class ModelPartExtras implements IExtras {
     public int getLight() {
         return light;
     }
+
+    @Override
+    public LivingEntity getEntity() {
+        return this.entity;
+    }
+
+    @Override public World getWorld() { return null; }
 }

@@ -34,6 +34,7 @@ public class PostfixOperation {
     public static float evaluate(String input) {
         input = input.trim();
         String a = "";
+        String numeric = "";
 
         char last = ' ';
         for (int i = 0; i < input.length(); i++) {
@@ -41,11 +42,15 @@ public class PostfixOperation {
 
             if ((c == '-' && last >= '0' && last <= '9') || c == '(' || c == ')' || c == '^' || c == '+' || c == '*' || c == '/') {
                a += " " + c + " ";
-            } else a += c;
+            } else { 
+                a += c;
+                numeric += c;
+            }
 
             last = c;
         }
         
+        if (!isNumeric(numeric)) return Float.MAX_VALUE;
         return evaluate(a.split(" "));
     }
 
@@ -112,8 +117,16 @@ public class PostfixOperation {
                 S.add(String.valueOf(value));
             }
         }
-
+        
         return Float.parseFloat(S.get(0));
+    }
+
+    public static boolean isNumeric(String input) {
+        try {
+            Float.parseFloat(input);
+            return true;
+        } catch (NumberFormatException e) {}
+        return false;
     }
 
 }

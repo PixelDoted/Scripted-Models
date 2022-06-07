@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class FabricUtils {
-    
+
 	public static LivingEntity getLivingEntity(UUID uuid) {
 		PlayerEntity player = ScriptedModels.minecraft.world.getPlayerByUuid(uuid);
 		if (player != null) return player;
@@ -27,7 +27,7 @@ public class FabricUtils {
 		if (entity == null) return null;
 
 		LivingEntityRenderer<?,?> renderer = (LivingEntityRenderer<?,?>)ScriptedModels.minecraft.getEntityRenderDispatcher().getRenderer(entity);
-		return renderer.getModel();
+		return renderer == null ? null : renderer.getModel();
 	}
 
 }

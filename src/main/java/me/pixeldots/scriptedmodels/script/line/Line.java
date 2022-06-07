@@ -6,7 +6,7 @@ public class Line {
     public Object[] data;
 
     public void run(Object extras, LineMode mode) {
-        if (type.mode != mode) return;
+        if (type.mode != mode && type.mode != LineMode.GLOBAL) return;
         type.func.run(data, extras);
     }
 

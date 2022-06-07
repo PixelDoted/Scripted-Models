@@ -7,7 +7,8 @@ public enum LineType {
         FabricFunctions.particle(extras, getS(data, 0), getF(data, 1), getF(data, 2),
             getF(data, 3), getF(data, 4), getF(data, 5), getF(data, 6));
     }),
-    VERTEX(LineMode.RENDER, (data, extras) -> { 
+
+    VERTEX(LineMode.RENDER, (data, extras) -> {
         FabricFunctions.vertex(extras, getF(data, 0), getF(data, 1), getF(data, 2),
             getF(data, 3), getF(data, 4), getF(data, 5), getF(data, 6),
             getF(data, 7), getF(data, 8), getF(data, 9), getF(data, 10),
@@ -23,8 +24,9 @@ public enum LineType {
         FabricFunctions.scale(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
     }),
     ANGLE(LineMode.RENDER, (data, extras) -> {
-        FabricFunctions.angle(extras, (float)data[0], (float)data[1], (float)data[2]);
+        FabricFunctions.angle(extras, getF(data, 0), getF(data, 1), getF(data, 2));
     }),
+
     CANCEL(LineMode.GLOBAL, (data, extras) -> {});
 
     LineMode mode;
