@@ -69,6 +69,21 @@ public class ClientHelper {
         ClientNetwork.changed_script(getModelPartIndex(modelpart, model), script);
     }
 
+    /**
+     * decompiles the entity's/modelpart's script
+     * @param uuid the entity's uuid
+     * @param modelpart the entity's modelpart (null for global script)
+     * @param script the entity's script
+     * @return the decompiled script
+     */
+    public static String decompile_script(UUID uuid, ModelPart modelpart, String script) {
+        if (!ScriptedModels.EntityScript.containsKey(uuid))
+            return "";
+        
+        if (modelpart == null) return Interpreter.decompile(ScriptedModels.EntityScript.get(uuid).global);
+        else return Interpreter.decompile(ScriptedModels.EntityScript.get(uuid).parts.get(modelpart));
+    }
+
     private static void change_script(UUID uuid, ModelPart modelpart, String script) {
         if (!ScriptedModels.EntityScript.containsKey(uuid))
             ScriptedModels.EntityScript.put(uuid, new ScriptedEntity());
