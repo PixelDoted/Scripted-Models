@@ -27,6 +27,7 @@ public enum LineType {
         FabricFunctions.angle(extras, getF(data, 0), getF(data, 1), getF(data, 2));
     }),
 
+    DEFINE(LineMode.NONE, (data, extras) -> {}),
     CANCEL(LineMode.GLOBAL, (data, extras) -> {});
 
     LineMode mode;

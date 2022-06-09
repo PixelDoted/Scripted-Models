@@ -28,6 +28,7 @@ scale <x> <y> <z> // visualy scales an entity/modelpart
 rotate <x> <y> <z> // visualy rotates an entity/modelpart
 angle <pitch> <yaw> <roll> // rotates a modelpart used for animations (doesn't go back to the default angle after used)
 particle <particle type> <x> <y> <z> <velocity x> <velocity y> <velocity z> // creates a particle
+define // think of this as a comment but compiled with the script
 cancel // cancels the script (hiding the modelpart/entity running this script)
 
 v -> vertex
