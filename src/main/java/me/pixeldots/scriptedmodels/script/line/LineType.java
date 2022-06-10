@@ -1,30 +1,30 @@
 package me.pixeldots.scriptedmodels.script.line;
 
-import me.pixeldots.scriptedmodels.platform.FabricFunctions;
+import me.pixeldots.scriptedmodels.platform.PlatformFunctions;
 
 public enum LineType {
     PARTICLE(LineMode.TICK, (data, extras) -> {
-        FabricFunctions.particle(extras, getS(data, 0), getF(data, 1), getF(data, 2),
+        PlatformFunctions.particle(extras, getS(data, 0), getF(data, 1), getF(data, 2),
             getF(data, 3), getF(data, 4), getF(data, 5), getF(data, 6));
     }),
 
     VERTEX(LineMode.RENDER, (data, extras) -> {
-        FabricFunctions.vertex(extras, getF(data, 0), getF(data, 1), getF(data, 2),
+        PlatformFunctions.vertex(extras, getF(data, 0), getF(data, 1), getF(data, 2),
             getF(data, 3), getF(data, 4), getF(data, 5), getF(data, 6),
             getF(data, 7), getF(data, 8), getF(data, 9), getF(data, 10),
             getF(data, 11)); 
     }),
     TRANSLATE(LineMode.RENDER, (data, extras) -> { 
-        FabricFunctions.translate(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
+        PlatformFunctions.translate(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
     }),
     ROTATE(LineMode.RENDER, (data, extras) -> { 
-        FabricFunctions.rotate(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
+        PlatformFunctions.rotate(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
     }),
     SCALE(LineMode.RENDER, (data, extras) -> { 
-        FabricFunctions.scale(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
+        PlatformFunctions.scale(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
     }),
     ANGLE(LineMode.RENDER, (data, extras) -> {
-        FabricFunctions.angle(extras, getF(data, 0), getF(data, 1), getF(data, 2));
+        PlatformFunctions.angle(extras, getF(data, 0), getF(data, 1), getF(data, 2));
     }),
 
     DEFINE(LineMode.NONE, (data, extras) -> {}),

@@ -9,7 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class FabricUtils {
+public class PlatformUtils {
 
 	public static LivingEntity getLivingEntity(UUID uuid) {
 		PlayerEntity player = ScriptedModels.minecraft.world.getPlayerByUuid(uuid);

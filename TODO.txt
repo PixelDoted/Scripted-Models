@@ -1,5 +1,7 @@
-+ added "define"
++ change particle position and velocity with player rotation
 
+- change particle position and velocity with modelpart rotation
+- compress script data
 
 ? variables
 ? maximum entity distance to run scripts
@@ -11,3 +13,4 @@ old:
 + server maximum script length
 + add functions to decompile a line/script
 + "angle <pitch> <yaw> <roll>" for modelparts
++ added "define"

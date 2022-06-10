@@ -2,6 +2,7 @@ package me.pixeldots.scriptedmodels.platform;
 
 import me.pixeldots.scriptedmodels.platform.other.IExtras;
 import me.pixeldots.scriptedmodels.platform.other.ModelPartRenderExtras;
+import me.pixeldots.scriptedmodels.platform.other.ModelPartTickExtras;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -14,7 +15,7 @@ import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public class FabricFunctions {
+public class PlatformFunctions {
     
     // global //
 
@@ -26,7 +27,11 @@ public class FabricFunctions {
         Identifier id = new Identifier(type.toLowerCase());
 
         if (!Registry.PARTICLE_TYPE.containsId(id)) { return; }
-        world.addParticle((ParticleEffect)Registry.PARTICLE_TYPE.get(id), x+entity.getX(), y+entity.getY(), z+entity.getZ(), vx, vy, vz);
+        
+        float yaw = (float)Math.toRadians(entity.getYaw());
+        float xOff = (x*(float)Math.cos(yaw))-(z*(float)Math.sin(yaw)), zOff = (z*(float)Math.cos(yaw))+(x*(float)Math.sin(yaw));
+        float xVOff = (vx*(float)Math.cos(yaw))-(vz*(float)Math.sin(yaw)), zVOff = (vz*(float)Math.cos(yaw))+(vx*(float)Math.sin(yaw));
+        world.addParticle((ParticleEffect)Registry.PARTICLE_TYPE.get(id), xOff+entity.getX(), y+entity.getY(), zOff+entity.getZ(), xVOff, vy, zVOff);
     }
 
     /// render //

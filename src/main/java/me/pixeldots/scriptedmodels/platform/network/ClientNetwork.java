@@ -3,7 +3,7 @@ package me.pixeldots.scriptedmodels.platform.network;
 import java.util.UUID;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
-import me.pixeldots.scriptedmodels.platform.FabricUtils;
+import me.pixeldots.scriptedmodels.platform.PlatformUtils;
 import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkIdentifyers;
 import me.pixeldots.scriptedmodels.script.Interpreter;
@@ -25,8 +25,8 @@ public class ClientNetwork {
             ScriptedEntity scripted = new ScriptedEntity();
 
             UUID uuid = buf.readUuid();
-            LivingEntity entity = FabricUtils.getLivingEntity(uuid);
-            IAnimalModelMixin model = (IAnimalModelMixin)(AnimalModel<?>)FabricUtils.getModel(entity);
+            LivingEntity entity = PlatformUtils.getLivingEntity(uuid);
+            IAnimalModelMixin model = (IAnimalModelMixin)(AnimalModel<?>)PlatformUtils.getModel(entity);
             if (model == null) return;
             
             scripted.global = Interpreter.compile(buf.readString().split("\n"));
@@ -53,8 +53,8 @@ public class ClientNetwork {
             if (!ScriptedModels.EntityScript.containsKey(uuid)) ScriptedModels.EntityScript.put(uuid, new ScriptedEntity());
             if (part_id == -1) ScriptedModels.EntityScript.get(uuid).global = Interpreter.compile(script.split("\n"));
             else {
-                LivingEntity entity = FabricUtils.getLivingEntity(uuid);
-                IAnimalModelMixin model = (IAnimalModelMixin)(AnimalModel<?>)FabricUtils.getModel(entity);
+                LivingEntity entity = PlatformUtils.getLivingEntity(uuid);
+                IAnimalModelMixin model = (IAnimalModelMixin)(AnimalModel<?>)PlatformUtils.getModel(entity);
                 if (model == null) return;
 
                 ModelPart model_part;
@@ -90,6 +90,7 @@ public class ClientNetwork {
     }
 
     public static void changed_script(int part_id, String script) {
+        if (script.length() > 32767) return; // add Compression
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(part_id);
         buf.writeString(script);
