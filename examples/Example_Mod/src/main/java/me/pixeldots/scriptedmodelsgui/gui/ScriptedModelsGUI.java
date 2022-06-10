@@ -8,7 +8,7 @@ import java.util.UUID;
 import me.pixeldots.scriptedmodelsgui.ScriptedModelsGui;
 import me.pixeldots.scriptedmodels.ClientHelper;
 import me.pixeldots.scriptedmodels.ScriptedModels;
-import me.pixeldots.scriptedmodels.platform.FabricUtils;
+import me.pixeldots.scriptedmodels.platform.PlatformUtils;
 import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 import net.minecraft.client.MinecraftClient;
@@ -30,7 +30,7 @@ public class ScriptedModelsGUI extends GuiHandler {
     @Override
     public void init() {    
         LivingEntity entity = ScriptedModels.minecraft.player;
-        AnimalModel<?> model = (AnimalModel<?>)FabricUtils.getModel(entity);
+        AnimalModel<?> model = (AnimalModel<?>)PlatformUtils.getModel(entity);
         UUID uuid = entity.getUuid();
 
         addButton(new ButtonWidget(5, 5, 100, 20, Text.of("remove script"), (btn) -> {
