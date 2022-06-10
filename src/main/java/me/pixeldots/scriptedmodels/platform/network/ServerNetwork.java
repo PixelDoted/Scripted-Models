@@ -11,6 +11,13 @@ import net.minecraft.text.Text;
 
 public class ServerNetwork {
 
+    public static boolean shouldCompressBytes(String script) {
+        return NetworkUtils.shouldCompressBytes(script);
+    }
+    public static byte[] getBytes(String script) {
+        return NetworkUtils.getBytes(script);
+    }
+
     public static void register() {
         ServerPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.request_entitys, (server, senderplayer, network, buf, sender) -> {
             PacketByteBuf buffer = PacketByteBufs.create();
@@ -18,12 +25,16 @@ public class ServerNetwork {
             for (UUID uuid : ScriptedModelsMain.EntityData.keySet()) {
                 EntityData data = ScriptedModelsMain.EntityData.get(uuid);
                 buffer.writeUuid(uuid); // entity's uuid
-                buffer.writeString(data.script); // entity's script
+
+                buffer.writeByteArray(getBytes(data.script)); // entity's script
+                buffer.writeBoolean(shouldCompressBytes(data.script)); // is script compressed
 
                 buffer.writeInt(data.parts.size()); // entity parts data length
                 for (int key : data.parts.keySet()) {
-                    buffer.writeString(data.parts.get(key)); // entity's modelpart script
+                    String script = data.parts.get(key);
+                    buffer.writeByteArray(getBytes(script)); // entity's modelpart script
                     buffer.writeInt(key); // entity's modelpart id
+                    buffer.writeBoolean(shouldCompressBytes(script)); // is script compressed
                 }
             }
 
@@ -32,7 +43,11 @@ public class ServerNetwork {
         ServerPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.changed_script, (server, senderplayer, network, buf, sender) -> {
             UUID uuid = senderplayer.getUuid();
             int part_id = buf.readInt();
-            String script = buf.readString();
+
+            byte[] byte_script = buf.readByteArray();
+            boolean is_compressed = buf.readBoolean();
+
+            String script = (is_compressed ? NetworkUtils.decompress_tostring(byte_script) : new String(byte_script));
             if (ScriptedModelsMain.MaximumScriptLineCount != 0 && script.split("\n").length >= ScriptedModelsMain.MaximumScriptLineCount) {
                 senderplayer.sendMessage(Text.of("Script has too many lines"), false);
                 return;
@@ -41,7 +56,8 @@ public class ServerNetwork {
             PacketByteBuf buffer = PacketByteBufs.create();
             buffer.writeUuid(uuid);
             buffer.writeInt(part_id);
-            buffer.writeString(script);
+            buffer.writeByteArray(byte_script);
+            buffer.writeBoolean(is_compressed);
 
             ScriptedModelsMain.EntityData.put(uuid, new EntityData());
             if (part_id == -1) ScriptedModelsMain.EntityData.get(uuid).script = script;

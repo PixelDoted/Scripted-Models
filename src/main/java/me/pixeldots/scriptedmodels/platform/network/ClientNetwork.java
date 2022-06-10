@@ -20,6 +20,13 @@ import net.minecraft.network.PacketByteBuf;
 @Environment(EnvType.CLIENT)
 public class ClientNetwork {
 
+    public static boolean shouldCompressBytes(String script) {
+        return NetworkUtils.shouldCompressBytes(script);
+    }
+    public static byte[] getBytes(String script) {
+        return NetworkUtils.getBytes(script);
+    }
+
     public static void register() {
         ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.request_entitys, (client, handler, buf, responseSender) -> {
             ScriptedEntity scripted = new ScriptedEntity();
@@ -48,7 +55,10 @@ public class ClientNetwork {
         ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.recive_script, (client, handler, buf, responseSender) -> {
             UUID uuid = buf.readUuid();
             int part_id = buf.readInt();
-            String script = buf.readString();
+            byte[] byte_script = buf.readByteArray();
+            boolean is_compressed = buf.readBoolean();
+
+            String script = (is_compressed ? NetworkUtils.decompress_tostring(byte_script) : new String(byte_script));
 
             if (!ScriptedModels.EntityScript.containsKey(uuid)) ScriptedModels.EntityScript.put(uuid, new ScriptedEntity());
             if (part_id == -1) ScriptedModels.EntityScript.get(uuid).global = Interpreter.compile(script.split("\n"));
@@ -89,11 +99,11 @@ public class ClientNetwork {
         ClientPlayNetworking.send(NetworkIdentifyers.reset_entity, buf);
     }
 
-    public static void changed_script(int part_id, String script) {
-        if (script.length() > 32767) return; // add Compression
+    public static void changed_script(int part_id, String script, boolean compress) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(part_id);
-        buf.writeString(script);
+        buf.writeByteArray(getBytes(script));
+        buf.writeBoolean(shouldCompressBytes(script));
         ClientPlayNetworking.send(NetworkIdentifyers.changed_script, buf);
     }
 

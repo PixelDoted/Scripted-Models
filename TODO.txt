@@ -1,7 +1,9 @@
-+ change particle position and velocity with player rotation
++ particle position and velocity follows the player rotation
++ renamed FabricFunctions to PlatformFunctions
++ renamed FabricUtils to PlatformUtils
++ network script compression
 
-- change particle position and velocity with modelpart rotation
-- compress script data
+- particle position and velocity follows a modelparts rotation
 
 ? variables
 ? maximum entity distance to run scripts

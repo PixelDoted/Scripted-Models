@@ -54,7 +54,7 @@ public class ClientHelper {
      */
     public static void change_script(UUID uuid, ModelPart modelpart, int part_id, String script) {
         change_script(uuid, modelpart, script);
-        ClientNetwork.changed_script(part_id, script);
+        ClientNetwork.changed_script(part_id, script, true);
     }
 
     /**
@@ -66,7 +66,7 @@ public class ClientHelper {
      */
     public static void change_script(UUID uuid, AnimalModel<?> model, ModelPart modelpart, String script) {
         change_script(uuid, modelpart, script);
-        ClientNetwork.changed_script(getModelPartIndex(modelpart, model), script);
+        ClientNetwork.changed_script(getModelPartIndex(modelpart, model), script, true);
     }
 
     /**

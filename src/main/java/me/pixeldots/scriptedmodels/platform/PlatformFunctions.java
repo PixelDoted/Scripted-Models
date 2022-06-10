@@ -2,7 +2,6 @@ package me.pixeldots.scriptedmodels.platform;
 
 import me.pixeldots.scriptedmodels.platform.other.IExtras;
 import me.pixeldots.scriptedmodels.platform.other.ModelPartRenderExtras;
-import me.pixeldots.scriptedmodels.platform.other.ModelPartTickExtras;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;

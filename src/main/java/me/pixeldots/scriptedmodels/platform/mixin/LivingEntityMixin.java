@@ -8,14 +8,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
-import me.pixeldots.scriptedmodels.platform.PlatformUtils;
 import me.pixeldots.scriptedmodels.platform.other.LivingEntityExtras;
-import me.pixeldots.scriptedmodels.platform.other.ModelPartTickExtras;
 import me.pixeldots.scriptedmodels.script.line.Line;
 import me.pixeldots.scriptedmodels.script.line.LineMode;
 import me.pixeldots.scriptedmodels.script.line.LineType;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 
 @Mixin(LivingEntity.class)

@@ -20,6 +20,7 @@ public class ScriptedModelsMain implements ModInitializer {
 
     public static Map<UUID, EntityData> EntityData = new HashMap<>();
     public static int MaximumScriptLineCount = 0;
+    public static int CompressThreshold = -1;
 
     @Override
     public void onInitialize() {
