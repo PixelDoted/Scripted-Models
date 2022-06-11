@@ -1,9 +1,7 @@
-+ particle position and velocity follows the player rotation
-+ renamed FabricFunctions to PlatformFunctions
-+ renamed FabricUtils to PlatformUtils
-+ network script compression
+
 
 - particle position and velocity follows a modelparts rotation
+- add support for entity's that don't use AnimalModel
 
 ? variables
 ? maximum entity distance to run scripts
@@ -16,3 +14,7 @@ old:
 + add functions to decompile a line/script
 + "angle <pitch> <yaw> <roll>" for modelparts
 + added "define"
++ particle position and velocity follows the player rotation
++ renamed FabricFunctions to PlatformFunctions
++ renamed FabricUtils to PlatformUtils
++ network script compression
