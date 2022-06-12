@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
-import me.pixeldots.scriptedmodels.platform.other.AnimalModelExtras;
+import me.pixeldots.scriptedmodels.platform.other.EntityModelExtras;
 import me.pixeldots.scriptedmodels.script.line.Line;
 import me.pixeldots.scriptedmodels.script.line.LineMode;
 import me.pixeldots.scriptedmodels.script.line.LineType;
@@ -27,7 +27,7 @@ public class AnimalModelMixin {
 
         if (!ScriptedModels.EntityScript.containsKey(uuid)) return;
 
-        AnimalModelExtras extras = new AnimalModelExtras().set(entity, matrices, vertices, matrices.peek().getNormalMatrix(), matrices.peek().getPositionMatrix(), overlay, light);
+        EntityModelExtras extras = new EntityModelExtras().set(entity, matrices, vertices, matrices.peek().getNormalMatrix(), matrices.peek().getPositionMatrix(), overlay, light);
         for (Line line : ScriptedModels.EntityScript.get(uuid).global) {
             if (line.type == LineType.CANCEL) { info.cancel(); return; }
             line.run(extras, LineMode.RENDER);

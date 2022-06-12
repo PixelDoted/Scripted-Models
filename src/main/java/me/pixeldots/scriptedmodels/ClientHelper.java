@@ -2,13 +2,13 @@ package me.pixeldots.scriptedmodels;
 
 import java.util.UUID;
 
-import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
+import me.pixeldots.scriptedmodels.platform.PlatformUtils;
 import me.pixeldots.scriptedmodels.platform.network.ClientNetwork;
 import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 import me.pixeldots.scriptedmodels.script.line.Line;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.AnimalModel;
+import net.minecraft.client.render.entity.model.EntityModel;
 
 public class ClientHelper {
 
@@ -27,7 +27,7 @@ public class ClientHelper {
      * @param model the entity's model
      * @param part the entity's modelpart (null for global script)
      */
-    public static void remove_script(UUID uuid, AnimalModel<?> model, ModelPart part) {
+    public static void remove_script(UUID uuid, EntityModel<?> model, ModelPart part) {
         if (part == null) ScriptedModels.EntityScript.get(uuid).global = new Line[0];
         else ScriptedModels.EntityScript.get(uuid).parts.remove(part);
         ClientNetwork.remove_script(uuid, getModelPartIndex(part, model));
@@ -64,7 +64,7 @@ public class ClientHelper {
      * @param modelpart the entity's modelpart (can be 'null')
      * @param script the entity's script
      */
-    public static void change_script(UUID uuid, AnimalModel<?> model, ModelPart modelpart, String script) {
+    public static void change_script(UUID uuid, EntityModel<?> model, ModelPart modelpart, String script) {
         change_script(uuid, modelpart, script);
         ClientNetwork.changed_script(getModelPartIndex(modelpart, model), script, true);
     }
@@ -94,17 +94,16 @@ public class ClientHelper {
         else ScriptedModels.EntityScript.get(uuid).parts.put(modelpart, Interpreter.compile(script.split("\n")));
     }
 
-    private static int getModelPartIndex(ModelPart modelpart, AnimalModel<?> model) {
-        IAnimalModelMixin mixin = (IAnimalModelMixin)model;
+    private static int getModelPartIndex(ModelPart modelpart, EntityModel<?> model) {
         int index = 100;
 
-        for (ModelPart part : mixin.getHeadParts()) {
+        for (ModelPart part : PlatformUtils.getHeadParts(model)) {
             if (modelpart == part) return index;
             index++;
         }
 
         index = 0;
-        for (ModelPart part : mixin.getBodyParts()) {
+        for (ModelPart part : PlatformUtils.getBodyParts(model)) {
             if (modelpart == part) return index;
             index++;
         }

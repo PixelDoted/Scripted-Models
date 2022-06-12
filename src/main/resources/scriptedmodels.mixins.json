@@ -6,7 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "AnimalModel",
+    "AnimalModelMixin",
     "IAnimalModelMixin",
     "LivingEntityMixin",
     "LivingEntityRendererMixin",

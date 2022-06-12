@@ -1,4 +1,5 @@
-
++ added comments to PlatformUtils
++ added getHeadParts and getBodyParts to PlatformUtils
 
 - particle position and velocity follows a modelparts rotation
 - add support for entity's that don't use AnimalModel

@@ -1,13 +1,12 @@
 package me.pixeldots.scriptedmodels.platform;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
+import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.model.AnimalModel;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -15,6 +14,11 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class PlatformUtils {
 
+	/**
+	 * gets a LivingEntity from a UUID
+	 * @param uuid the entity's UUID
+	 * @return the LivingEntity
+	 */
 	public static LivingEntity getLivingEntity(UUID uuid) {
 		PlayerEntity player = ScriptedModels.minecraft.world.getPlayerByUuid(uuid);
 		if (player != null) return player;
@@ -27,6 +31,11 @@ public class PlatformUtils {
 		return null;
 	}
 
+	/**
+	 * gets an EntityModel from a LivingEntity
+	 * @param entity the LivingEntity
+	 * @return the EntityModel
+	 */
     public static EntityModel<?> getModel(LivingEntity entity) {
 		if (entity == null) return null;
 
@@ -34,25 +43,28 @@ public class PlatformUtils {
 		return renderer == null ? null : renderer.getModel();
 	}
 
-	/*
-	 * This can cause Lag
-	 * only use this when needed
+	/**
+	 * gets all Head Parts from an EntityModel
+	 * @param model the EntityModel
+	 * @return the Head Parts
 	 */
-	public static List<ModelPart> getModelParts(EntityModel<LivingEntity> model) {
-		List<ModelPart> parts = new ArrayList<>();
+	public static Iterable<ModelPart> getHeadParts(EntityModel<?> model) {
+		if (model instanceof AnimalModel)
+			return ((IAnimalModelMixin)model).getHeadParts();
 
-        Field[] fields = model.getClass().getDeclaredFields();
-		for (Field field : fields) {
-			if (field.getType().isInstance(ModelPart.class)) {
-				try {
-					parts.add((ModelPart)field.get(model));
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		return null;
+	}
 
-		return parts;
-    }
+	/**
+	 * gets all Body Parts from an EntityModel
+	 * @param model the EntityModel
+	 * @return the Body Parts
+	 */
+	public static Iterable<ModelPart> getBodyParts(EntityModel<?> model) {
+		if (model instanceof AnimalModel)
+			return ((IAnimalModelMixin)model).getBodyParts();
+
+		return null;
+	}
 
 }

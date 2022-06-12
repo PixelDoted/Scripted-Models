@@ -7,7 +7,7 @@ import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 
-public class AnimalModelExtras implements IExtras {
+public class EntityModelExtras implements IExtras {
 
     public LivingEntity entity;
     public MatrixStack matrixStack;
@@ -17,7 +17,7 @@ public class AnimalModelExtras implements IExtras {
     public int overlay;
     public int light;
 
-    public AnimalModelExtras set(LivingEntity _entity, MatrixStack _matrix, VertexConsumer _vertex, Matrix3f _normal, Matrix4f _position, int _overlay, int _light) {
+    public EntityModelExtras set(LivingEntity _entity, MatrixStack _matrix, VertexConsumer _vertex, Matrix3f _normal, Matrix4f _position, int _overlay, int _light) {
         this.entity = _entity; this.matrixStack = _matrix; this.vertexConsumer = _vertex; this.matrixNormal = _normal;
         this.matrixPosition = _position; this.overlay = _overlay; this.light = _light;
         return this;

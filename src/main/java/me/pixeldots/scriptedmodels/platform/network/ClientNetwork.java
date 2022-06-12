@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
 import me.pixeldots.scriptedmodels.platform.PlatformUtils;
-import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkIdentifyers;
 import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
@@ -13,7 +12,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.AnimalModel;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.PacketByteBuf;
 
@@ -33,7 +32,7 @@ public class ClientNetwork {
 
             UUID uuid = buf.readUuid();
             LivingEntity entity = PlatformUtils.getLivingEntity(uuid);
-            IAnimalModelMixin model = (IAnimalModelMixin)(AnimalModel<?>)PlatformUtils.getModel(entity);
+            EntityModel<?> model = PlatformUtils.getModel(entity);
             if (model == null) return;
             
             scripted.global = Interpreter.compile(buf.readString().split("\n"));
@@ -44,8 +43,8 @@ public class ClientNetwork {
                 int part_id = buf.readInt();
                 ModelPart model_part;
 
-                if (part_id >= 100) model_part = getModelPart(part_id-100, model.getHeadParts());
-                else model_part = getModelPart(part_id, model.getBodyParts());
+                if (part_id >= 100) model_part = getModelPart(part_id-100, PlatformUtils.getHeadParts(model));
+                else model_part = getModelPart(part_id, PlatformUtils.getBodyParts(model));
 
                 scripted.parts.put(model_part, Interpreter.compile(part_script.split("\n")));
             }
@@ -64,12 +63,12 @@ public class ClientNetwork {
             if (part_id == -1) ScriptedModels.EntityScript.get(uuid).global = Interpreter.compile(script.split("\n"));
             else {
                 LivingEntity entity = PlatformUtils.getLivingEntity(uuid);
-                IAnimalModelMixin model = (IAnimalModelMixin)(AnimalModel<?>)PlatformUtils.getModel(entity);
+                EntityModel<?> model = PlatformUtils.getModel(entity);
                 if (model == null) return;
 
                 ModelPart model_part;
-                if (part_id >= 100) model_part = getModelPart(part_id-100, model.getHeadParts());
-                else model_part = getModelPart(part_id, model.getBodyParts());
+                if (part_id >= 100) model_part = getModelPart(part_id-100, PlatformUtils.getHeadParts(model));
+                else model_part = getModelPart(part_id, PlatformUtils.getBodyParts(model));
 
                 if (!ScriptedModels.EntityScript.containsKey(uuid)) ScriptedModels.EntityScript.put(uuid, new ScriptedEntity());
                 ScriptedModels.EntityScript.get(uuid).parts.put(model_part, Interpreter.compile(script.split("\n")));
