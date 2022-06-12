@@ -18,12 +18,8 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain"
-    ],
-    "client": [
-      "me.pixeldots.scriptedmodels.ScriptedModels"
-    ]
+    "main": [ "me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain" ],
+    "client": [ "me.pixeldots.scriptedmodels.ScriptedModels" ]
   },
   "mixins": [
     "scriptedmodels.mixins.json"

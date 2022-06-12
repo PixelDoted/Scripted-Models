@@ -1,5 +1,3 @@
-+ added comments to PlatformUtils
-+ added getHeadParts and getBodyParts to PlatformUtils
 
 - particle position and velocity follows a modelparts rotation
 - add support for entity's that don't use AnimalModel
@@ -19,3 +17,5 @@ old:
 + renamed FabricFunctions to PlatformFunctions
 + renamed FabricUtils to PlatformUtils
 + network script compression
++ added comments to PlatformUtils
++ added getHeadParts and getBodyParts to PlatformUtils
