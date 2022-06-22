@@ -15,7 +15,7 @@ public class Interpreter {
      * @param lines the scripts lines
      * @return the compiled script
      */
-    public static Line[] compile(String[] lines) {
+    public static List<Line> compile(String[] lines) {
         List<Line> output = new ArrayList<>();
         for (String line : lines) {
             Line compiled = compile_line(line);
@@ -23,7 +23,7 @@ public class Interpreter {
 
             output.add(compiled);
         }
-        return output.toArray(new Line[output.size()]);
+        return output;
     }
 
     /**
@@ -48,7 +48,7 @@ public class Interpreter {
      * @param script the script to decompile
      * @return the decompiled script
      */
-    public static String decompile(Line[] script) {
+    public static String decompile(List<Line> script) {
         String output = "";
         for (Line line : script) {
             String decompiled = line.type.toString();

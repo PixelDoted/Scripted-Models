@@ -66,12 +66,15 @@ public class ScriptedModelsMain implements ModInitializer {
 
         // Forces a client to update an entity's script
         public static Identifier recive_script = new Identifier("scriptedmodels", "recive_script");
-    
+
         // Remove's a script from an entity
         public static Identifier remove_script = new Identifier("scriptedmodels", "remove_script");
 
         // Resets the entity's scripts
         public static Identifier reset_entity = new Identifier("scriptedmodels", "reset_entity");
+        
+        // Sends a message to the client
+        public static Identifier error = new Identifier("scriptedmodels", "error");
     }
 
 }

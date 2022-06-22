@@ -7,10 +7,14 @@
   ],
   "client": [
     "AnimalModelMixin",
-    "IAnimalModelMixin",
     "LivingEntityMixin",
     "LivingEntityRendererMixin",
-    "ModelPartMixin"
+    "ModelPartMixin",
+    "IAnimalModelMixin",
+    
+    "LlamaEntityModelAccessor",
+    "RabbitEntityModelAccessor",
+    "DragonEntityModelAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

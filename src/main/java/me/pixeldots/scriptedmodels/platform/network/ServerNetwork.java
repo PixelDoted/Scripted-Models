@@ -7,7 +7,7 @@ import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkId
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.Text;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public class ServerNetwork {
 
@@ -49,7 +49,7 @@ public class ServerNetwork {
 
             String script = (is_compressed ? NetworkUtils.decompress_tostring(byte_script) : new String(byte_script));
             if (ScriptedModelsMain.MaximumScriptLineCount != 0 && script.split("\n").length >= ScriptedModelsMain.MaximumScriptLineCount) {
-                senderplayer.sendMessage(Text.of("Script has too many lines"), false);
+                send_error(senderplayer, "The sent script has too many lines");
                 return;
             }
             
@@ -62,10 +62,9 @@ public class ServerNetwork {
             ScriptedModelsMain.EntityData.put(uuid, new EntityData());
             if (part_id == -1) ScriptedModelsMain.EntityData.get(uuid).script = script;
             else ScriptedModelsMain.EntityData.get(uuid).parts.put(part_id, script);
-
-            String[] names = server.getPlayerManager().getPlayerNames();
-            for (int i = 0; i < names.length; i++) {
-                ServerPlayNetworking.send(server.getPlayerManager().getPlayer(names[i]), NetworkIdentifyers.recive_script, buffer);
+			
+            for (ServerPlayerEntity reciver : server.getPlayerManager().getPlayerList()) {
+                ServerPlayNetworking.send(reciver, NetworkIdentifyers.recive_script, buffer);
             }
         });
         ServerPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.remove_script, (server, senderplayer, network, buf, sender) -> {
@@ -84,4 +83,10 @@ public class ServerNetwork {
         });
     }
     
+    public static void send_error(ServerPlayerEntity player, String s) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeString(s);
+        ServerPlayNetworking.send(player, NetworkIdentifyers.error, buf);
+    }
+
 }

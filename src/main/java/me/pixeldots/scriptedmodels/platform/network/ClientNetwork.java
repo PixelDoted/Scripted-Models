@@ -74,6 +74,11 @@ public class ClientNetwork {
                 ScriptedModels.EntityScript.get(uuid).parts.put(model_part, Interpreter.compile(script.split("\n")));
             }
         });
+
+        ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.error, (client, handler, buf, responseSender) -> {
+            String err = buf.readString();
+            ScriptedModels.LOGGER.error(err);
+        });
     }
 
     public static ModelPart getModelPart(int id, Iterable<ModelPart> parts) {

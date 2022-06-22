@@ -1,6 +1,8 @@
 package me.pixeldots.scriptedmodels.script;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import me.pixeldots.scriptedmodels.script.line.Line;
@@ -8,12 +10,34 @@ import net.minecraft.client.model.ModelPart;
 
 public class ScriptedEntity {
     
-    public Line[] global; // the entity's global script
-    public Map<ModelPart, Line[]> parts;
+    public List<Line> global; // the entity's global script
+    public Map<ModelPart, List<Line>> parts;
 
     public ScriptedEntity() {
-        global = new Line[0];
+        global = new ArrayList<>();
         parts = new HashMap<>();
+    }
+
+    public void append(List<Line> lines, ModelPart part) {
+        List<Line> lParts = null;
+        if (part == null) lParts = global;
+        else if (parts.containsKey(part)) lParts = parts.get(part);
+
+        if (lParts == null) return;
+        for (Line line : lines) { 
+            lParts.add(line); 
+        }
+    }
+
+    public void remove(int start, int end, ModelPart part) {
+        List<Line> lParts = null;
+        if (part == null) lParts = global;
+        else if (parts.containsKey(part)) lParts = parts.get(part);
+
+        if (lParts == null) return;
+        for (int i = start; i < end; i++) {
+            lParts.remove(start);
+        }
     }
 
 }

@@ -7,6 +7,9 @@ right now Scripted Models is really only used for it's features and speed (compa
 eventually Pixel's Character Models will use Scripted Models for model editing  
 but for now Pixel's Character Models is used for simplicity and Scripted Models is used for features and speed
 
+if you would like to test out the Scripted Models version of Pixel's Character Models
+you can find it in the ["dev" branch](https://github.com/PixelDoted/PixelsCharacterModels/tree/dev/PixelsCharacterModels-Fabric)
+
 Scripted Models has examples on how to use it
 [here](https://github.com/PixelDoted/Scripted-Models/tree/master/examples)
 
@@ -16,7 +19,7 @@ then select them in the GUI by pressing "R"
 ## Source
 
 path: src/main/java/me/pixeldots/scriptedmodels  
-the folder "platform" is modloader and/or version(forge) specific code  
+the folder "platform" is modloader and/or version specific code  
 the folder "script" compiles and runs the inputted script
 
 ## Script Commands
@@ -55,4 +58,4 @@ dependencies {
 ```
 
 "ClientHelper" has some useful functions for modifying an entity's scripts  
-you can see the [GUI](https://github.com/PixelDoted/Scripted-Models/blob/master/src/main/java/me/pixeldots/scriptedmodels/platform/other/ScriptedModelsGUI.java) for examples
+you can see the [GUI](https://github.com/PixelDoted/Scripted-Models/blob/master/examples/Example_Mod/src/main/java/me/pixeldots/scriptedmodelsgui/gui/ScriptedModelsGUI.java) for examples
