@@ -8,6 +8,7 @@
   "client": [
     "AnimalModelMixin",
     "LivingEntityMixin",
+    "EntityMixin",
     "LivingEntityRendererMixin",
     "ModelPartMixin",
     "IAnimalModelMixin",

@@ -48,8 +48,8 @@ public class PlatformUtils {
     public static EntityModel<?> getModel(LivingEntity entity) {
 		if (entity == null) return null;
 
-		LivingEntityRenderer<?,?> renderer = (LivingEntityRenderer<?,?>)ScriptedModels.minecraft.getEntityRenderDispatcher().getRenderer(entity);
-		return renderer == null ? null : renderer.getModel();
+		LivingEntityRenderer<?,?> living_renderer = (LivingEntityRenderer<?,?>)ScriptedModels.minecraft.getEntityRenderDispatcher().getRenderer(entity);
+		return living_renderer == null ? null : living_renderer.getModel();
 	}
 
 	/**

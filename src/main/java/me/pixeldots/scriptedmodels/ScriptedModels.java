@@ -3,7 +3,6 @@ package me.pixeldots.scriptedmodels;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 
 import java.util.HashMap;
@@ -23,7 +22,6 @@ public class ScriptedModels implements ClientModInitializer {
 	public static LivingEntity Rendering_Entity;
 
 	public static MinecraftClient minecraft;
-	public static ClientPlayerEntity clientPlayer;
 	public static boolean isConnectedToWorld = false;
 
 	@Override
