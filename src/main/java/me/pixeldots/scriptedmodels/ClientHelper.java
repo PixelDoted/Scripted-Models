@@ -1,6 +1,5 @@
 package me.pixeldots.scriptedmodels;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import me.pixeldots.scriptedmodels.platform.PlatformUtils;
@@ -28,7 +27,7 @@ public class ClientHelper {
      * @param part the entity's modelpart (null for global script)
      */
     public static void remove_script(UUID uuid, EntityModel<?> model, ModelPart part) {
-        if (part == null) ScriptedModels.EntityScript.get(uuid).global = new ArrayList<>();
+        if (part == null) ScriptedModels.EntityScript.get(uuid).global.clear();
         else ScriptedModels.EntityScript.get(uuid).parts.remove(part);
         ClientNetwork.remove_script(uuid, getModelPartIndex(part, model));
     }
@@ -40,7 +39,7 @@ public class ClientHelper {
      * @param part_id the entity's modelpart id
      */
     public static void remove_script(UUID uuid, ModelPart part, int part_id) {
-        if (part == null) ScriptedModels.EntityScript.get(uuid).global = new ArrayList<>();
+        if (part == null) ScriptedModels.EntityScript.get(uuid).global.clear();
         else ScriptedModels.EntityScript.get(uuid).parts.remove(part);
         ClientNetwork.remove_script(uuid, part_id);
     }

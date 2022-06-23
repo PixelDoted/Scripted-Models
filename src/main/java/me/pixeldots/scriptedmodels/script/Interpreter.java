@@ -2,6 +2,7 @@ package me.pixeldots.scriptedmodels.script;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +17,7 @@ public class Interpreter {
      * @return the compiled script
      */
     public static List<Line> compile(String[] lines) {
-        List<Line> output = new ArrayList<>();
+        List<Line> output = new CopyOnWriteArrayList<>();
         for (String line : lines) {
             Line compiled = compile_line(line);
             if (compiled == null) continue; // skip if the compilation failed

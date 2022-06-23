@@ -1,9 +1,9 @@
 package me.pixeldots.scriptedmodels.script;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import me.pixeldots.scriptedmodels.script.line.Line;
 import net.minecraft.client.model.ModelPart;
@@ -14,7 +14,7 @@ public class ScriptedEntity {
     public Map<ModelPart, List<Line>> parts;
 
     public ScriptedEntity() {
-        global = new ArrayList<>();
+        global = new CopyOnWriteArrayList<>();
         parts = new HashMap<>();
     }
 
