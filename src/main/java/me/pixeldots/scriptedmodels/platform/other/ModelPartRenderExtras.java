@@ -10,20 +10,19 @@ import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 
-public class ModelPartRenderExtras implements IExtras {
-    public LivingEntity entity;
+public class ModelPartRenderExtras extends ModelPartExtras implements IExtras {
+    
     public MatrixStack.Entry matrixEntry;
     public VertexConsumer vertexConsumer;
     public Matrix3f matrixNormal;
     public Matrix4f matrixPosition;
     public int overlay;
     public int light;
-    public CallbackInfo info;
-    public ModelPart modelPart;
 
     public ModelPartRenderExtras set(LivingEntity _entity, MatrixStack.Entry _entry, VertexConsumer _vertex, Matrix3f _normal, Matrix4f _position, int _overlay, int _light, CallbackInfo _info, ModelPart _part) {
-        this.entity = _entity; this.matrixEntry = _entry; this.vertexConsumer = _vertex; this.matrixNormal = _normal;
-        this.matrixPosition = _position; this.overlay = _overlay; this.light = _light; this.info = _info; this.modelPart = _part;
+        this.matrixEntry = _entry; this.vertexConsumer = _vertex; this.matrixNormal = _normal;
+        this.matrixPosition = _position; this.overlay = _overlay; this.light = _light;
+        super.set(_entity, _part, _info);
         return this;
     }
 

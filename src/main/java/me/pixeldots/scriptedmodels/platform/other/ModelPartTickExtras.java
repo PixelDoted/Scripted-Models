@@ -9,15 +9,13 @@ import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 
-public class ModelPartTickExtras implements IExtras {
-    public LivingEntity entity;
+public class ModelPartTickExtras extends ModelPartExtras implements IExtras {
+    
     public World world;
-    public ModelPart modelPart;
-    public CallbackInfo info;
 
     public ModelPartTickExtras set(LivingEntity _entity, World _world, ModelPart _part, CallbackInfo _info) {
-        this.entity = _entity; this.world = _world;
-        this.modelPart = _part; this.info = _info;
+        this.world = _world;
+        super.set(_entity, _part, _info);
         return this;
     }
 

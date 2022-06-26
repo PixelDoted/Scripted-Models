@@ -23,7 +23,8 @@ public enum LineType {
     SCALE(LineMode.RENDER, (data, extras) -> { 
         PlatformFunctions.scale(extras, getF(data, 0), getF(data, 1), getF(data, 2)); 
     }),
-    ANGLE(LineMode.RENDER, (data, extras) -> {
+    
+    ANGLE(LineMode.ROTATE, (data, extras) -> {
         PlatformFunctions.angle(extras, getF(data, 0), getF(data, 1), getF(data, 2));
     }),
 

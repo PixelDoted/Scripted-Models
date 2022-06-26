@@ -1,7 +1,7 @@
 package me.pixeldots.scriptedmodels.platform;
 
 import me.pixeldots.scriptedmodels.platform.other.IExtras;
-import me.pixeldots.scriptedmodels.platform.other.ModelPartRenderExtras;
+import me.pixeldots.scriptedmodels.platform.other.ModelPartExtras;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -89,8 +89,8 @@ public class PlatformFunctions {
     }
 
     public static void angle(Object extras, float pitch, float yaw, float roll) {
-        if (extras instanceof ModelPartRenderExtras)
-            ((ModelPartRenderExtras)extras).modelPart.setAngles((float)Math.toRadians(pitch), (float)Math.toRadians(yaw), (float)Math.toRadians(roll));
+        if (extras instanceof ModelPartExtras)
+            ((ModelPartExtras)extras).modelPart.setAngles((float)Math.toRadians(pitch), (float)Math.toRadians(yaw), (float)Math.toRadians(roll));
     }
 
 }
