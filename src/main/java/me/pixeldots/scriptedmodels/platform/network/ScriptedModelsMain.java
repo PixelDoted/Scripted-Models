@@ -64,6 +64,9 @@ public class ScriptedModelsMain implements ModInitializer {
         // Resets the entity's scripts
         public static Identifier reset_entity = new Identifier("scriptedmodels", "reset_entity");
         
+        // player connection identifier
+        public static Identifier connection = new Identifier("scriptedmodels", "connection");
+
         // Sends a message to the client
         public static Identifier error = new Identifier("scriptedmodels", "error");
     }

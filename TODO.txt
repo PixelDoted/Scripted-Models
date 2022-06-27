@@ -2,6 +2,10 @@
 + joining a world now requests all entity scripts
 + changed how request_entitys works
 + fixed changed_script using senderplayer's uuid instead of the entity's uuid
++ fixed angle
++ added ROTATE LineMode
++ now uses CopyOnWriteArrayList instead of ArrayList
++ added player connection packet
 
 - particle position and velocity follows a modelparts rotation
 
@@ -24,6 +28,3 @@ old:
 + added getHeadParts and getBodyParts to PlatformUtils
 + change entity scripts to List<Line> instead of Line[]
 + add support for entity's that don't use AnimalModel
-+ fixed angle
-+ added ROTATE LineMode
-+ use CopyOnWriteArrayList instead of ArrayList

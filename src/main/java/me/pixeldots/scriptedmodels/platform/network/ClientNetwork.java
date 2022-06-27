@@ -123,5 +123,10 @@ public class ClientNetwork {
     public static void request_entitys() {
         ClientPlayNetworking.send(NetworkIdentifyers.request_entitys, PacketByteBufs.empty());
     }
+
+    public static void connection() {
+        request_entitys();
+        ClientPlayNetworking.send(NetworkIdentifyers.connection, PacketByteBufs.empty());
+    }
     
 }

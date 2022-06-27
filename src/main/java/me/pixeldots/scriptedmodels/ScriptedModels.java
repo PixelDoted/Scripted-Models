@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import me.pixeldots.scriptedmodels.platform.network.ClientNetwork;
+import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 
 public class ScriptedModels implements ClientModInitializer {
@@ -34,10 +35,11 @@ public class ScriptedModels implements ClientModInitializer {
 			if (c.world == null && isConnectedToWorld) { 
 				isConnectedToWorld = false;
 				EntityScript.clear();
+				ScriptedModelsMain.EntityData.clear();
 				Rendering_Entity = null;
 			} else if (c.world != null && !isConnectedToWorld) {
 				isConnectedToWorld = true;
-				ClientNetwork.request_entitys();
+				ClientNetwork.connection();
 			}
 		});
 		LOGGER.info("Scripted Models Loaded");

@@ -59,8 +59,8 @@ public class ServerNetwork {
             if (part_id == -1) ScriptedModelsMain.EntityData.get(uuid).script = script;
             else ScriptedModelsMain.EntityData.get(uuid).parts.put(part_id, script);
 			
-            for (ServerPlayerEntity reciver : server.getPlayerManager().getPlayerList()) {
-                ServerPlayNetworking.send(reciver, NetworkIdentifyers.recive_script, buffer);
+            for (ServerPlayerEntity receiver : server.getPlayerManager().getPlayerList()) {
+                ServerPlayNetworking.send(receiver, NetworkIdentifyers.recive_script, buffer);
             }
         });
         ServerPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.remove_script, (server, senderplayer, network, buf, sender) -> {
@@ -76,6 +76,22 @@ public class ServerNetwork {
             UUID uuid = buf.readUuid();
             if (ScriptedModelsMain.EntityData.containsKey(uuid)) 
                 ScriptedModelsMain.EntityData.remove(uuid);
+        });
+        ServerPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.connection, (server, senderplayer, network, buf, sender) -> {
+            PacketByteBuf buffer = PacketByteBufs.create();
+
+            buffer.writeInt(1);
+            EntityData data = ScriptedModelsMain.EntityData.get(senderplayer.getUuid());
+            String entity_data = new Gson().toJson(data);
+
+            buffer.writeUuid(senderplayer.getUuid());
+            buffer.writeBoolean(shouldCompressBytes(entity_data));
+            buffer.writeByteArray(getBytes(entity_data));
+			
+            for (ServerPlayerEntity receiver : server.getPlayerManager().getPlayerList()) {
+                if (receiver == senderplayer) continue;
+                ServerPlayNetworking.send(receiver, NetworkIdentifyers.request_entitys, buffer);
+            }
         });
     }
     
