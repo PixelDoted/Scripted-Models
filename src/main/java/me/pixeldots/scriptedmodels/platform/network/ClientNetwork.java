@@ -2,8 +2,11 @@ package me.pixeldots.scriptedmodels.platform.network;
 
 import java.util.UUID;
 
+import com.google.gson.Gson;
+
 import me.pixeldots.scriptedmodels.ScriptedModels;
 import me.pixeldots.scriptedmodels.platform.PlatformUtils;
+import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.EntityData;
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkIdentifyers;
 import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
@@ -28,28 +31,33 @@ public class ClientNetwork {
 
     public static void register() {
         ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.request_entitys, (client, handler, buf, responseSender) -> {
-            ScriptedEntity scripted = new ScriptedEntity();
+            int count = buf.readInt();
 
-            UUID uuid = buf.readUuid();
-            LivingEntity entity = PlatformUtils.getLivingEntity(uuid);
-            EntityModel<?> model = PlatformUtils.getModel(entity);
-            if (model == null) return;
-            
-            scripted.global = Interpreter.compile(buf.readString().split("\n"));
+            for (int k = 0; k < count; k++) {
+                ScriptedEntity scripted = new ScriptedEntity();
+                
+                UUID uuid = buf.readUuid();
+                LivingEntity entity = PlatformUtils.getLivingEntity(uuid);
+                EntityModel<?> model = PlatformUtils.getModel(entity);
+                if (model == null) return;
 
-            int part_count = buf.readInt();
-            for (int i = 0; i < part_count; i++) {
-                String part_script = buf.readString();
-                int part_id = buf.readInt();
-                ModelPart model_part;
+                boolean is_compressed = buf.readBoolean();
+                byte[] bytes = buf.readByteArray();
+                EntityData data = new Gson().fromJson((is_compressed ? NetworkUtils.decompress_tostring(bytes) : new String(bytes)), EntityData.class);
+                
+                if (data.script != null) scripted.global = Interpreter.compile(data.script.split("\n"));
 
-                if (part_id >= 100) model_part = getModelPart(part_id-100, PlatformUtils.getHeadParts(model));
-                else model_part = getModelPart(part_id, PlatformUtils.getBodyParts(model));
+                for (int part_id : data.parts.keySet()) {
+                    ModelPart model_part;
 
-                scripted.parts.put(model_part, Interpreter.compile(part_script.split("\n")));
+                    if (part_id >= 100) model_part = getModelPart(part_id-100, PlatformUtils.getHeadParts(model));
+                    else model_part = getModelPart(part_id, PlatformUtils.getBodyParts(model));
+
+                    scripted.parts.put(model_part, Interpreter.compile(data.parts.get(part_id).split("\n")));
+                }
+
+                ScriptedModels.EntityScript.put(uuid, scripted);
             }
-
-            ScriptedModels.EntityScript.put(uuid, scripted);
         });
         ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.recive_script, (client, handler, buf, responseSender) -> {
             UUID uuid = buf.readUuid();
@@ -103,8 +111,9 @@ public class ClientNetwork {
         ClientPlayNetworking.send(NetworkIdentifyers.reset_entity, buf);
     }
 
-    public static void changed_script(int part_id, String script, boolean compress) {
+    public static void changed_script(UUID uuid, int part_id, String script, boolean compress) {
         PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeUuid(uuid);
         buf.writeInt(part_id);
         buf.writeByteArray(getBytes(script));
         buf.writeBoolean(shouldCompressBytes(script));

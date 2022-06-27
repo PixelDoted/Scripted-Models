@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
@@ -25,12 +23,7 @@ public class ScriptedModelsMain implements ModInitializer {
     @Override
     public void onInitialize() {
         handle_config();
-
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
-            ServerNetwork.register();
-        } else {
-            ClientNetwork.register();
-        }
+        ServerNetwork.register();
     }
 
     public void handle_config() {
@@ -49,9 +42,7 @@ public class ScriptedModelsMain implements ModInitializer {
             } catch (IOException | NumberFormatException e) {}
         }
     }
-
-
-    @Environment(EnvType.SERVER)
+    
     public static class EntityData {
         public String script;
         public Map<Integer, String> parts = new HashMap<>();

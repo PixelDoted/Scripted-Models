@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import me.pixeldots.scriptedmodels.platform.network.ClientNetwork;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 
 public class ScriptedModels implements ClientModInitializer {
@@ -27,13 +28,17 @@ public class ScriptedModels implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		minecraft = MinecraftClient.getInstance();
+		ClientNetwork.register();
 
 		ClientTickEvents.END_CLIENT_TICK.register(c -> {
-			if (c.player == null && isConnectedToWorld) { 
+			if (c.world == null && isConnectedToWorld) { 
 				isConnectedToWorld = false;
 				EntityScript.clear();
 				Rendering_Entity = null;
-			} else if (c.player != null && !isConnectedToWorld) isConnectedToWorld = true;
+			} else if (c.world != null && !isConnectedToWorld) {
+				isConnectedToWorld = true;
+				ClientNetwork.request_entitys();
+			}
 		});
 		LOGGER.info("Scripted Models Loaded");
 	}

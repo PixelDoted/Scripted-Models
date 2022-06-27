@@ -2,6 +2,8 @@ package me.pixeldots.scriptedmodels.platform.network;
 
 import java.util.UUID;
 
+import com.google.gson.Gson;
+
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.EntityData;
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkIdentifyers;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -22,26 +24,20 @@ public class ServerNetwork {
         ServerPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.request_entitys, (server, senderplayer, network, buf, sender) -> {
             PacketByteBuf buffer = PacketByteBufs.create();
 
+            buffer.writeInt(ScriptedModelsMain.EntityData.size());
             for (UUID uuid : ScriptedModelsMain.EntityData.keySet()) {
                 EntityData data = ScriptedModelsMain.EntityData.get(uuid);
-                buffer.writeUuid(uuid); // entity's uuid
+                String entity_data = new Gson().toJson(data);
 
-                buffer.writeByteArray(getBytes(data.script)); // entity's script
-                buffer.writeBoolean(shouldCompressBytes(data.script)); // is script compressed
-
-                buffer.writeInt(data.parts.size()); // entity parts data length
-                for (int key : data.parts.keySet()) {
-                    String script = data.parts.get(key);
-                    buffer.writeByteArray(getBytes(script)); // entity's modelpart script
-                    buffer.writeInt(key); // entity's modelpart id
-                    buffer.writeBoolean(shouldCompressBytes(script)); // is script compressed
-                }
+                buffer.writeUuid(uuid);
+                buffer.writeBoolean(shouldCompressBytes(entity_data));
+                buffer.writeByteArray(getBytes(entity_data));
             }
 
             ServerPlayNetworking.send(senderplayer, NetworkIdentifyers.request_entitys, buffer);
         });
         ServerPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.changed_script, (server, senderplayer, network, buf, sender) -> {
-            UUID uuid = senderplayer.getUuid();
+            UUID uuid = buf.readUuid();
             int part_id = buf.readInt();
 
             byte[] byte_script = buf.readByteArray();
