@@ -108,7 +108,7 @@ public class ClientNetwork {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeUuid(uuid);
         buf.writeInt(part_id);
-        ClientPlayNetworking.send(NetworkIdentifyers.reset_entity, buf);
+        ClientPlayNetworking.send(NetworkIdentifyers.remove_script, buf);
     }
 
     public static void changed_script(UUID uuid, int part_id, String script, boolean compress) {
