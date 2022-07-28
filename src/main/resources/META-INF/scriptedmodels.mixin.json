@@ -1,0 +1,23 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "me.pixeldots.scriptedmodels.platform.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+    ],
+    "client": [
+      "AnimalModelMixin",
+      "LivingEntityMixin",
+      "EntityMixin",
+      "LivingEntityRendererMixin",
+      "ModelPartMixin",
+      "IAnimalModelMixin",
+      
+      "LlamaEntityModelAccessor",
+      "RabbitEntityModelAccessor",
+      "DragonEntityModelAccessor"
+    ],
+    "injectors": {
+      "defaultRequire": 1
+    }
+  }
