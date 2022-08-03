@@ -15,9 +15,10 @@ import me.pixeldots.scriptedmodels.platform.other.EntityModelExtras;
 import me.pixeldots.scriptedmodels.script.line.Line;
 import me.pixeldots.scriptedmodels.script.line.LineMode;
 import me.pixeldots.scriptedmodels.script.line.LineType;
+import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.world.entity.LivingEntity;
 
-@Mixin(AnimalModel.class)
+@Mixin(AgeableListModel.class)
 public class AnimalModelMixin {
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)

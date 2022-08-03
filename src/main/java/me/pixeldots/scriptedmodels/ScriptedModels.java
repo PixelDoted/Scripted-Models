@@ -1,10 +1,11 @@
 package me.pixeldots.scriptedmodels;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.server.commands.SetBlockCommand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -32,22 +33,25 @@ public class ScriptedModels {
 
 	
 	@SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
+    public void onClientSetup(FMLClientSetupEvent event) {
 		minecraft = Minecraft.getInstance();
 		ClientNetwork.register();
+		LOGGER.info("Scripted Models Loaded");
+	}
 
-		ClientTickEvents.END_CLIENT_TICK.register(c -> {
-			if (c.world == null && isConnectedToWorld) { 
+	@SubscribeEvent
+	public void onClientTick(ClientTickEvent event) {
+		if (event.phase == TickEvent.Phase.END && event.side == LogicalSide.CLIENT) {
+			if (minecraft.level == null && isConnectedToWorld) { 
 				isConnectedToWorld = false;
 				EntityScript.clear();
 				ScriptedModelsMain.EntityData.clear();
 				Rendering_Entity = null;
-			} else if (c.world != null && !isConnectedToWorld) {
+			} else if (minecraft.level != null && !isConnectedToWorld) {
 				isConnectedToWorld = true;
 				ClientNetwork.connection();
 			}
-		});
-		LOGGER.info("Scripted Models Loaded");
+		}
 	}
 
 }

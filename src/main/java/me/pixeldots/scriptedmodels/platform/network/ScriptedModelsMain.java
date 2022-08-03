@@ -1,24 +1,19 @@
 package me.pixeldots.scriptedmodels.platform.network;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.UUID;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
+import org.apache.commons.lang3.tuple.Pair;
 
 import me.pixeldots.scriptedmodels.ScriptedModels;
-import me.pixeldots.scriptedmodels.platform.network.Packets.RequestEntitys;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkRegistry;
@@ -44,37 +39,22 @@ public class ScriptedModelsMain {
     }
 
     public void commonSetup(final FMLCommonSetupEvent event) {
-        handle_config();
+        handle_config(event);
         ServerNetwork.register();
         register_networking();
     }
 
     public void register_networking() {
         int id = 0;
-        SMPacket.registerMessage(id++, RequestEntitys.class, RequestEntitys::encode, RequestEntitys::decode, RequestEntitys::new);
-        SMPacket.registerMessage(id++, messageType, encoder, decoder, messageConsumer);
-        SMPacket.registerMessage(id++, messageType, encoder, decoder, messageConsumer);
-        SMPacket.registerMessage(id++, messageType, encoder, decoder, messageConsumer);
-        SMPacket.registerMessage(id++, messageType, encoder, decoder, messageConsumer);
-        SMPacket.registerMessage(id++, messageType, encoder, decoder, messageConsumer);
-        SMPacket.registerMessage(id++, messageType, encoder, decoder, messageConsumer);
+        SMPacket.registerMessage(id++, Receiver.class, Receiver::encode, Receiver::new, Receiver::handle);
     }
 
-    public void handle_config() {
-        String config_path = FabricLoader.getInstance().getConfigDir().toFile().getAbsolutePath() + "/ScriptedModels.conf";
-        if (Files.exists(Path.of(config_path))) {
-            Properties properties = new Properties();
-            try {
-                properties.load(new FileReader(config_path));
-                MaximumScriptLineCount = Integer.parseInt((String)properties.get("Server.MaximumScriptLineCount"));
-            } catch (IOException | NumberFormatException e) {}
-        } else {
-            try {
-                Properties properties = new Properties();
-                properties.put("Server.MaximumScriptLineCount", String.valueOf(MaximumScriptLineCount));
-                properties.store(new FileWriter(config_path), null);
-            } catch (IOException | NumberFormatException e) {}
-        }
+    public void handle_config(final FMLCommonSetupEvent event) {
+        Pair<SMConfig, ForgeConfigSpec> CONFIG = new ForgeConfigSpec.Builder()
+            .configure(SMConfig::new);
+
+        CONFIG.getValue().save();
+        ModLoadingContext.get().registerConfig(Type.COMMON, CONFIG.getValue());
     }
     
     public static class EntityData {
@@ -84,53 +64,25 @@ public class ScriptedModelsMain {
 
     public static class NetworkIdentifyers {
         // Requests all entity scripts
-        public static SimpleChannel request_entitys = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("scriptedmodels", "request_entitys"),
-            () -> "1",
-            NetworkRegistry.ACCEPTVANILLA::equals,
-            NetworkRegistry.ACCEPTVANILLA::equals);
+        public static ResourceLocation request_entitys = new ResourceLocation("scriptedmodels", "request_entitys");
 
         // Updates the servers database with the new entity script
-        public static SimpleChannel changed_script = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("scriptedmodels", "new_scripts"),
-            () -> "1",
-            NetworkRegistry.ACCEPTVANILLA::equals,
-            NetworkRegistry.ACCEPTVANILLA::equals);
+        public static ResourceLocation changed_script = new ResourceLocation("scriptedmodels", "new_scripts");
 
         // Forces a client to update an entity's script
-        public static SimpleChannel recive_script = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("scriptedmodels", "recive_script"),
-            () -> "1",
-            NetworkRegistry.ACCEPTVANILLA::equals,
-            NetworkRegistry.ACCEPTVANILLA::equals);
+        public static ResourceLocation recive_script = new ResourceLocation("scriptedmodels", "recive_script");
 
         // Remove's a script from an entity
-        public static SimpleChannel remove_script = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("scriptedmodels", "remove_script"),
-            () -> "1",
-            NetworkRegistry.ACCEPTVANILLA::equals,
-            NetworkRegistry.ACCEPTVANILLA::equals);
+        public static ResourceLocation remove_script = new ResourceLocation("scriptedmodels", "remove_script");
 
         // Resets the entity's scripts
-        public static SimpleChannel reset_entity = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("scriptedmodels", "reset_entity"),
-            () -> "1",
-            NetworkRegistry.ACCEPTVANILLA::equals,
-            NetworkRegistry.ACCEPTVANILLA::equals);
+        public static ResourceLocation reset_entity = new ResourceLocation("scriptedmodels", "reset_entity");
         
         // player connection identifier
-        public static SimpleChannel connection = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("scriptedmodels", "connection"),
-            () -> "1",
-            NetworkRegistry.ACCEPTVANILLA::equals,
-            NetworkRegistry.ACCEPTVANILLA::equals);
+        public static ResourceLocation connection = new ResourceLocation("scriptedmodels", "connection");
 
         // Sends a message to the client
-        public static SimpleChannel error = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("scriptedmodels", "error"),
-            () -> "1",
-            NetworkRegistry.ACCEPTVANILLA::equals,
-            NetworkRegistry.ACCEPTVANILLA::equals);
+        public static ResourceLocation error = new ResourceLocation("scriptedmodels", "error");
     }
 
 }

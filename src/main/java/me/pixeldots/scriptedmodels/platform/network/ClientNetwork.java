@@ -10,8 +10,9 @@ import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.EntityDat
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkIdentifyers;
 import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.LivingEntity;
 
 public class ClientNetwork {
 
@@ -23,13 +24,13 @@ public class ClientNetwork {
     }
 
     public static void register() {
-        ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.request_entitys, (client, handler, buf, responseSender) -> {
+        Receiver.registerGlobalReceiver_Client(NetworkIdentifyers.request_entitys, (server, senderplayer, buf) -> {
             int count = buf.readInt();
 
             for (int k = 0; k < count; k++) {
                 ScriptedEntity scripted = new ScriptedEntity();
                 
-                UUID uuid = buf.readUuid();
+                UUID uuid = buf.readUUID();
                 LivingEntity entity = PlatformUtils.getLivingEntity(uuid);
                 EntityModel<?> model = PlatformUtils.getModel(entity);
                 if (model == null) return;
@@ -52,8 +53,8 @@ public class ClientNetwork {
                 ScriptedModels.EntityScript.put(uuid, scripted);
             }
         });
-        ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.recive_script, (client, handler, buf, responseSender) -> {
-            UUID uuid = buf.readUuid();
+        Receiver.registerGlobalReceiver_Client(NetworkIdentifyers.recive_script, (server, senderplayer, buf) -> {
+            UUID uuid = buf.readUUID();
             int part_id = buf.readInt();
             byte[] byte_script = buf.readByteArray();
             boolean is_compressed = buf.readBoolean();
@@ -76,8 +77,8 @@ public class ClientNetwork {
             }
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.error, (client, handler, buf, responseSender) -> {
-            String err = buf.readString();
+        Receiver.registerGlobalReceiver_Client(NetworkIdentifyers.error, (server, senderplayer, buf) -> {
+            String err = buf.readUtf();
             ScriptedModels.LOGGER.error(err);
         });
     }
@@ -92,34 +93,34 @@ public class ClientNetwork {
     }
 
     public static void reset_entity(UUID uuid) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeUuid(uuid);
-        ClientPlayNetworking.send(NetworkIdentifyers.reset_entity, buf);
+        Receiver packet = new Receiver(NetworkIdentifyers.reset_entity);
+        packet.buf.writeUUID(uuid);
+        Receiver.send_fromClient(packet);
     }
 
     public static void remove_script(UUID uuid, int part_id) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeUuid(uuid);
-        buf.writeInt(part_id);
-        ClientPlayNetworking.send(NetworkIdentifyers.remove_script, buf);
+        Receiver packet = new Receiver(NetworkIdentifyers.remove_script);
+        packet.buf.writeUUID(uuid);
+        packet.buf.writeInt(part_id);
+        Receiver.send_fromClient(packet);
     }
 
     public static void changed_script(UUID uuid, int part_id, String script, boolean compress) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeUuid(uuid);
-        buf.writeInt(part_id);
-        buf.writeByteArray(getBytes(script));
-        buf.writeBoolean(shouldCompressBytes(script));
-        ClientPlayNetworking.send(NetworkIdentifyers.changed_script, buf);
+        Receiver packet = new Receiver(NetworkIdentifyers.changed_script);
+        packet.buf.writeUUID(uuid);
+        packet.buf.writeInt(part_id);
+        packet.buf.writeByteArray(getBytes(script));
+        packet.buf.writeBoolean(shouldCompressBytes(script));
+        Receiver.send_fromClient(packet);
     }
 
     public static void request_entitys() {
-        ClientPlayNetworking.send(NetworkIdentifyers.request_entitys, PacketByteBufs.empty());
+        Receiver.send_fromClient(new Receiver(NetworkIdentifyers.request_entitys));
     }
 
     public static void connection() {
         request_entitys();
-        ClientPlayNetworking.send(NetworkIdentifyers.connection, PacketByteBufs.empty());
+        Receiver.send_fromClient(new Receiver(NetworkIdentifyers.connection));
     }
     
 }

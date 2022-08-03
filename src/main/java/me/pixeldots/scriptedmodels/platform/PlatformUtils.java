@@ -8,16 +8,17 @@ import com.google.common.collect.ImmutableList;
 import me.pixeldots.scriptedmodels.ScriptedModels;
 import me.pixeldots.scriptedmodels.platform.mixin.LlamaEntityModelAccessor;
 import me.pixeldots.scriptedmodels.platform.mixin.RabbitEntityModelAccessor;
+import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.LlamaModel;
 import net.minecraft.client.model.RabbitModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.model.CompositeModel;
 import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
 
 public class PlatformUtils {
@@ -57,7 +58,7 @@ public class PlatformUtils {
 	 * @return the Head Parts
 	 */
 	public static Iterable<ModelPart> getHeadParts(EntityModel<?> model) {
-		if (model instanceof Animal) // get Head Parts if the model is an Animal Model
+		if (model instanceof AgeableListModel) // get Head Parts if the model is an Animal Model
 			return ((IAnimalModelMixin)model).getHeadParts();
 		else if (model instanceof LlamaModel) // get Head Parts if the model is a Llama Model
 			return ImmutableList.of(((LlamaEntityModelAccessor)model).head());
@@ -75,12 +76,12 @@ public class PlatformUtils {
 	 * @return the Body Parts
 	 */
 	public static Iterable<ModelPart> getBodyParts(EntityModel<?> model) {
-		if (model instanceof AnimalModel) // get Body Parts if the model is an Animal Model
+		if (model instanceof AgeableListModel) // get Body Parts if the model is an Animal Model
 			return ((IAnimalModelMixin)model).getBodyParts();
-		else if (model instanceof SinglePartEntityModel) // get Part if the model is a Single Part Model
-			return getModelPartChildren(((SinglePartEntityModel)model).getPart());
-		else if (model instanceof CompositeModel) // get Parts if the model is a Composite Model
-			return ((CompositeModel)model).getParts();
+		else if (model instanceof HierarchicalModel) // get Part if the model is a Single Part Model
+			return getModelPartChildren(((HierarchicalModel<?>)model).root());
+		else if (model instanceof ListModel) // get Parts if the model is a List Model (Forge)
+			return ((ListModel<?>)model).parts();
 		else if (model instanceof LlamaModel) { // get Body Parts if the model is a Llama Model
 			LlamaEntityModelAccessor m = (LlamaEntityModelAccessor)model;
 			return ImmutableList.of(m.body(), m.rightHindLeg(), m.leftHindLeg(), m.rightFrontLeg(), m.leftFrontLeg(), m.rightChest(), m.leftChest());
