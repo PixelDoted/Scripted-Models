@@ -22,7 +22,7 @@ import net.minecraft.world.entity.LivingEntity;
 @Mixin(ModelPart.class)
 public class ModelPartMixin {
 
-    @Inject(method = "renderCuboids", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "compile", at = @At("HEAD"), cancellable = true)
     private void renderCuboids(PoseStack.Pose entry, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, CallbackInfo info) {
         if (ScriptedModels.Rendering_Entity == null) return;
         LivingEntity entity = ScriptedModels.Rendering_Entity;
@@ -39,7 +39,7 @@ public class ModelPartMixin {
         }
     }
 
-    @Inject(method = "rotate", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "translateAndRotate", at = @At("HEAD"), cancellable = true)
     private void rotate(PoseStack matrices, CallbackInfo info) {
         if (ScriptedModels.Rendering_Entity == null) return;
         LivingEntity entity = ScriptedModels.Rendering_Entity;

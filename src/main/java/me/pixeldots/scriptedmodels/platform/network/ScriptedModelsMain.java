@@ -4,16 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import me.pixeldots.scriptedmodels.ScriptedModels;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkRegistry;
@@ -26,11 +21,12 @@ public class ScriptedModelsMain {
     public static int MaximumScriptLineCount = 0;
     public static int CompressThreshold = -1;
 
+    private static String Protocol_Version = "1";
     public static SimpleChannel SMPacket = NetworkRegistry.newSimpleChannel(
             new ResourceLocation("scriptedmodels", "packet"),
-            () -> "1",
-            NetworkRegistry.ACCEPTVANILLA::equals,
-            NetworkRegistry.ACCEPTVANILLA::equals);
+            () -> Protocol_Version,
+            Protocol_Version::equals,
+            Protocol_Version::equals);
 
     public ScriptedModelsMain() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -39,7 +35,7 @@ public class ScriptedModelsMain {
     }
 
     public void commonSetup(final FMLCommonSetupEvent event) {
-        handle_config(event);
+        //handle_config(event);
         ServerNetwork.register();
         register_networking();
     }
@@ -49,13 +45,13 @@ public class ScriptedModelsMain {
         SMPacket.registerMessage(id++, Receiver.class, Receiver::encode, Receiver::new, Receiver::handle);
     }
 
-    public void handle_config(final FMLCommonSetupEvent event) {
+    /*public void handle_config(final FMLCommonSetupEvent event) {
         Pair<SMConfig, ForgeConfigSpec> CONFIG = new ForgeConfigSpec.Builder()
             .configure(SMConfig::new);
 
         CONFIG.getValue().save();
         ModLoadingContext.get().registerConfig(Type.COMMON, CONFIG.getValue());
-    }
+    }*/
     
     public static class EntityData {
         public String script;

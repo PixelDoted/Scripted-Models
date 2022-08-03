@@ -42,6 +42,7 @@ public class ScriptedModels {
 	@SubscribeEvent
 	public void onClientTick(ClientTickEvent event) {
 		if (event.phase == TickEvent.Phase.END && event.side == LogicalSide.CLIENT) {
+			if (minecraft == null) return;
 			if (minecraft.level == null && isConnectedToWorld) { 
 				isConnectedToWorld = false;
 				EntityScript.clear();

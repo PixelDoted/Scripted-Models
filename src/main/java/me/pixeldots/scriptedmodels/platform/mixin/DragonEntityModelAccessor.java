@@ -19,16 +19,16 @@ public interface DragonEntityModelAccessor {
     @Accessor("leftFrontLeg") ModelPart leftFrontLeg();
     @Accessor("leftFrontLegTip") ModelPart leftFrontLegTip();
     @Accessor("leftFrontFoot") ModelPart leftFrontFoot();
-    @Accessor("leftHindLeg") ModelPart leftHindLeg();
-    @Accessor("leftHindLegTip") ModelPart leftHindLegTip();
-    @Accessor("leftHindFoot") ModelPart leftHindFoot();
+    @Accessor("leftRearLeg") ModelPart leftRearLeg();
+    @Accessor("leftRearLegTip") ModelPart leftRearLegTip();
+    @Accessor("leftRearFoot") ModelPart leftRearFoot();
     @Accessor("rightWing") ModelPart rightWing();
     @Accessor("rightWingTip") ModelPart rightWingTip();
     @Accessor("rightFrontLeg") ModelPart rightFrontLeg();
     @Accessor("rightFrontLegTip") ModelPart rightFrontLegTip();
     @Accessor("rightFrontFoot") ModelPart rightFrontFoot();
-    @Accessor("rightHindLeg") ModelPart rightHindLeg();
-    @Accessor("rightHindLegTip") ModelPart rightHindLegTip();
-    @Accessor("rightHindFoot") ModelPart rightHindFoot();
+    @Accessor("rightRearLeg") ModelPart rightRearLeg();
+    @Accessor("rightRearLegTip") ModelPart rightRearLegTip();
+    @Accessor("rightRearFoot") ModelPart rightRearFoot();
     
 }

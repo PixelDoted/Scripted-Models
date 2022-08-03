@@ -21,7 +21,7 @@ import net.minecraft.world.entity.LivingEntity;
 @Mixin(AgeableListModel.class)
 public class AnimalModelMixin {
 
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderToBuffer", at = @At("HEAD"), cancellable = true)
     private void render(PoseStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, CallbackInfo info) {
         LivingEntity entity = ScriptedModels.Rendering_Entity;
         UUID uuid = entity.getUUID();

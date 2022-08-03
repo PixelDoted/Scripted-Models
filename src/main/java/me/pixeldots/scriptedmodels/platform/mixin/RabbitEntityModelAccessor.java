@@ -9,8 +9,8 @@ import net.minecraft.client.model.geom.ModelPart;
 @Mixin(RabbitModel.class)
 public interface RabbitEntityModelAccessor {
     
-    @Accessor("leftHindLeg") ModelPart leftHindLeg();
-    @Accessor("rightHindLeg") ModelPart rightHindLeg();
+    @Accessor("leftRearFoot") ModelPart leftRearFoot();
+    @Accessor("rightRearFoot") ModelPart rightRearFoot();
     @Accessor("leftHaunch") ModelPart leftHaunch();
     @Accessor("rightHaunch") ModelPart rightHaunch();
     @Accessor("body") ModelPart body();

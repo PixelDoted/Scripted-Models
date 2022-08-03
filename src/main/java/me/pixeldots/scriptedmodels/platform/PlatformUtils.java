@@ -87,7 +87,7 @@ public class PlatformUtils {
 			return ImmutableList.of(m.body(), m.rightHindLeg(), m.leftHindLeg(), m.rightFrontLeg(), m.leftFrontLeg(), m.rightChest(), m.leftChest());
 		} else if (model instanceof RabbitModel) { // get Body Parts if the model is a Rabbit Model
 			RabbitEntityModelAccessor m = (RabbitEntityModelAccessor)model;
-			return ImmutableList.of(m.body(), m.rightHindLeg(), m.leftHindLeg(), m.rightFrontLeg(), m.leftFrontLeg(), m.rightHaunch(), m.leftHaunch(), m.tail());
+			return ImmutableList.of(m.body(), m.rightRearFoot(), m.leftRearFoot(), m.rightFrontLeg(), m.leftFrontLeg(), m.rightHaunch(), m.leftHaunch(), m.tail());
 		}
 
 		return ImmutableList.of();

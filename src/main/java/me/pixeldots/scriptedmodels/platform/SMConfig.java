@@ -1,5 +1,6 @@
-package me.pixeldots.scriptedmodels.platform.network;
+package me.pixeldots.scriptedmodels.platform;
 
+import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
