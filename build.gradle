@@ -134,3 +134,20 @@ jar.finalizedBy('reobfJar')
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
+
+task deobfJar(type: Jar) { // Generate deobfuscated
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task sourceJar(type: Jar) { // Generate sources
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+tasks.build.dependsOn('sourceJar', 'deobfJar')
+artifacts {
+    archives deobfJar
+    archives sourceJar
+    archives jar
+}
