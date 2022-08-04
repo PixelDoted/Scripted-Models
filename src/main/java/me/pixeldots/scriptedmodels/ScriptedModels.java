@@ -34,7 +34,6 @@ public class ScriptedModels {
 	
 	@SubscribeEvent
     public void onClientSetup(FMLClientSetupEvent event) {
-		minecraft = Minecraft.getInstance();
 		ClientNetwork.register();
 		LOGGER.info("Scripted Models Loaded");
 	}
@@ -42,7 +41,11 @@ public class ScriptedModels {
 	@SubscribeEvent
 	public void onClientTick(ClientTickEvent event) {
 		if (event.phase == TickEvent.Phase.END && event.side == LogicalSide.CLIENT) {
-			if (minecraft == null) return;
+			if (minecraft == null) {
+				minecraft = Minecraft.getInstance();
+				return;
+			}
+
 			if (minecraft.level == null && isConnectedToWorld) { 
 				isConnectedToWorld = false;
 				EntityScript.clear();

@@ -1,0 +1,2 @@
+particle minecraft:smoke 0 2 0 0 .1 0
+particle minecraft:flame 0 2 0 0 0 0

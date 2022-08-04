@@ -24,7 +24,11 @@ public class Receiver {
 
     public Receiver(FriendlyByteBuf in) {
         id = new ResourceLocation(in.readUtf());
-        in.readBytes(buf);
+
+        FriendlyByteBuf _buf = new FriendlyByteBuf(Unpooled.buffer());
+        _buf.setBytes(0, in.readByteArray());
+        buf = _buf;
+
         server = in.readBoolean();
     }
 
@@ -51,7 +55,7 @@ public class Receiver {
 
     public void encode(FriendlyByteBuf out) {
         out.writeUtf(id.toString());
-        out.writeBytes(buf);
+        out.writeByteArray(buf.array());
         out.writeBoolean(server);
     }
 
