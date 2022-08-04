@@ -78,7 +78,7 @@ public class ClientNetwork {
         });
 
         Receiver.registerGlobalReceiver_Client(NetworkIdentifyers.error, (server, senderplayer, buf) -> {
-            String err = buf.readUtf();
+            String err = buf.readString();
             ScriptedModels.LOGGER.error(err);
         });
     }

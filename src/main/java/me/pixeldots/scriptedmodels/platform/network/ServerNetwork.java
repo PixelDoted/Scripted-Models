@@ -4,10 +4,9 @@ import java.util.UUID;
 
 import com.google.gson.Gson;
 
-import io.netty.buffer.Unpooled;
+import me.pixeldots.scriptedmodels.platform.network.Receiver.ReceivedBuffer;
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.EntityData;
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkIdentifyers;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -22,7 +21,7 @@ public class ServerNetwork {
 
     public static void register() {
         Receiver.registerGlobalReceiver_Server(NetworkIdentifyers.request_entitys, (server, senderplayer, buf) -> {
-            FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+            ReceivedBuffer buffer = new ReceivedBuffer();
 
             buffer.writeInt(ScriptedModelsMain.EntityData.size());
             for (UUID uuid : ScriptedModelsMain.EntityData.keySet()) {
@@ -50,7 +49,7 @@ public class ServerNetwork {
                 return;
             }
             
-            FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+            ReceivedBuffer buffer = new ReceivedBuffer();
             buffer.writeUUID(uuid);
             buffer.writeInt(part_id);
             buffer.writeByteArray(byte_script);
@@ -81,7 +80,7 @@ public class ServerNetwork {
                 ScriptedModelsMain.EntityData.remove(uuid);
         });
         Receiver.registerGlobalReceiver_Server(NetworkIdentifyers.connection, (server, senderplayer, buf) -> {
-            FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+            ReceivedBuffer buffer = new ReceivedBuffer();
 
             buffer.writeInt(1);
             EntityData data = ScriptedModelsMain.EntityData.get(senderplayer.getUUID());
@@ -103,7 +102,7 @@ public class ServerNetwork {
     
     public static void send_error(ServerPlayer player, String s) {
         Receiver data = new Receiver(NetworkIdentifyers.error);
-        data.buf.writeUtf(s);
+        data.buf.writeString(s);
         Receiver.send_fromServer(player, data);
     }
 
