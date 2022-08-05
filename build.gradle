@@ -11,7 +11,7 @@ plugins {
 }
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.7.2'
+version = '0.7.3'
 group = 'me.pixeldots.scriptedmodels' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'scriptedmodels'
 
