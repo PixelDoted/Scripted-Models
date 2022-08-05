@@ -55,7 +55,9 @@ public class ServerNetwork {
             buffer.writeByteArray(byte_script);
             buffer.writeBoolean(is_compressed);
 
-            ScriptedModelsMain.EntityData.put(uuid, new EntityData());
+			if (!ScriptedModelsMain.EntityData.containsKey(uuid))
+            	ScriptedModelsMain.EntityData.put(uuid, new EntityData());
+            
             if (part_id == -1) ScriptedModelsMain.EntityData.get(uuid).script = script;
             else ScriptedModelsMain.EntityData.get(uuid).parts.put(part_id, script);
 			
