@@ -30,11 +30,8 @@ public class ScriptedModels {
 
 	public static Minecraft minecraft;
 	public static boolean isConnectedToWorld = false;
-
 	
-	@SubscribeEvent
     public void onClientSetup(FMLClientSetupEvent event) {
-		ClientNetwork.register();
 		LOGGER.info("Scripted Models Loaded");
 	}
 

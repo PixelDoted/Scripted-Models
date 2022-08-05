@@ -11,8 +11,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
 
 @Mod("scriptedmodels")
 public class ScriptedModelsMain {
@@ -21,28 +19,21 @@ public class ScriptedModelsMain {
     public static int MaximumScriptLineCount = 0;
     public static int CompressThreshold = -1;
 
-    private static String Protocol_Version = "1";
-    public static SimpleChannel SMPacket = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("scriptedmodels", "packet"),
-            () -> Protocol_Version,
-            Protocol_Version::equals,
-            Protocol_Version::equals);
+    public static String ProVer = "1"; // Protocol_Version
 
     public ScriptedModelsMain() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
-        MinecraftForge.EVENT_BUS.register(new ScriptedModels());
+
+        ScriptedModels client = new ScriptedModels();
+        modEventBus.addListener(client::onClientSetup);
+        MinecraftForge.EVENT_BUS.register(client);
     }
 
     public void commonSetup(final FMLCommonSetupEvent event) {
         //handle_config(event);
-        ServerNetwork.register();
-        register_networking();
-    }
-
-    public void register_networking() {
-        int id = 0;
-        SMPacket.registerMessage(id++, Receiver.class, Receiver::encode, Receiver::new, Receiver::handle);
+        ServerNetwork.register(0);
+        ClientNetwork.register(3);
     }
 
     /*public void handle_config(final FMLCommonSetupEvent event) {
