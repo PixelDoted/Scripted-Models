@@ -52,13 +52,15 @@ public class C2S_changed_script {
             buffer.byte_script = byte_script;
             buffer.is_compressed = is_compressed;
 
-            ScriptedModelsMain.EntityData.put(uuid, new EntityData());
+            if (!ScriptedModelsMain.EntityData.containsKey(uuid))
+                ScriptedModelsMain.EntityData.put(uuid, new EntityData());
+
             if (part_id == -1) ScriptedModelsMain.EntityData.get(uuid).script = script;
             else ScriptedModelsMain.EntityData.get(uuid).parts.put(part_id, script);
 			
             for (Player plr : sender.level.players()) {
                 ServerPlayer receiver = (ServerPlayer)plr;
-                ClientNetwork.request_entitys.sendTo(buffer, receiver.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+                ServerNetwork.receive_script.sendTo(buffer, receiver.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
             }
         });
         ctx.get().setPacketHandled(true);

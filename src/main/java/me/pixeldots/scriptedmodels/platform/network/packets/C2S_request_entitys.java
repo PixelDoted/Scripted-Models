@@ -5,9 +5,9 @@ import java.util.function.Supplier;
 
 import com.google.gson.Gson;
 
-import me.pixeldots.scriptedmodels.platform.network.ClientNetwork;
 import me.pixeldots.scriptedmodels.platform.network.NetworkUtils;
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain;
+import me.pixeldots.scriptedmodels.platform.network.ServerNetwork;
 import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.EntityData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkDirection;
@@ -40,7 +40,7 @@ public class C2S_request_entitys {
                 index += 1;
             }
 
-            ClientNetwork.request_entitys.sendTo(buffer, ctx.get().getSender().connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+            ServerNetwork.request_entitys.sendTo(buffer, ctx.get().getSender().connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
         });
         ctx.get().setPacketHandled(true);
     }
