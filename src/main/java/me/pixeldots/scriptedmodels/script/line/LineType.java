@@ -31,10 +31,10 @@ public enum LineType {
     DEFINE(LineMode.NONE, (data, extras) -> {}),
     CANCEL(LineMode.GLOBAL, (data, extras) -> {});
 
-    LineMode mode;
+    byte mode;
     LineFunc func;
 
-    private LineType(LineMode mode, LineFunc func) {
+    private LineType(byte mode, LineFunc func) {
         this.func = func;
         this.mode = mode;
     }

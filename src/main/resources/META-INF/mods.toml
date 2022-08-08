@@ -5,9 +5,9 @@ license="LGPL-3"
 
 [[mods]] #mandatory
 modId="scriptedmodels" #mandatory
-version="0.7.2" #mandatory
+version="${file.jarVersion}" #mandatory
 displayName="Scripted Models" #mandatory
-logoFile="examplemod.png" #optional
+logoFile="icon.png" #optional
 authors="PixelDots" #optional
 description='''
 a Character Editor using Scripts
