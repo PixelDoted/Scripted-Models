@@ -1,12 +1,12 @@
 package me.pixeldots.scriptedmodels.platform.other;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 
 public class ModelPartTickExtras extends ModelPartExtras implements IExtras {

@@ -1,17 +1,18 @@
 package me.pixeldots.scriptedmodels.platform;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+
 import me.pixeldots.scriptedmodels.platform.other.IExtras;
 import me.pixeldots.scriptedmodels.platform.other.ModelPartExtras;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class PlatformFunctions {
@@ -25,12 +26,12 @@ public class PlatformFunctions {
         World world = iExtras.getWorld();
         Identifier id = new Identifier(type.toLowerCase());
 
-        if (!Registry.PARTICLE_TYPE.containsId(id)) { return; }
+        if (!Registries.PARTICLE_TYPE.containsId(id)) { return; }
         
         float yaw = (float)Math.toRadians(entity.getYaw());
         float xOff = (x*(float)Math.cos(yaw))-(z*(float)Math.sin(yaw)), zOff = (z*(float)Math.cos(yaw))+(x*(float)Math.sin(yaw));
         float xVOff = (vx*(float)Math.cos(yaw))-(vz*(float)Math.sin(yaw)), zVOff = (vz*(float)Math.cos(yaw))+(vx*(float)Math.sin(yaw));
-        world.addParticle((ParticleEffect)Registry.PARTICLE_TYPE.get(id), xOff+entity.getX(), y+entity.getY(), zOff+entity.getZ(), xVOff, vy, zVOff);
+        world.addParticle((ParticleEffect)Registries.PARTICLE_TYPE.get(id), xOff+entity.getX(), y+entity.getY(), zOff+entity.getZ(), xVOff, vy, zVOff);
     }
 
     /// render //
@@ -53,7 +54,7 @@ public class PlatformFunctions {
             matrices.translate(x, y, z);
         } else {
             MatrixStack.Entry entry = (MatrixStack.Entry)matrix;
-            entry.getPositionMatrix().multiplyByTranslation(x, y, z);
+            entry.getPositionMatrix().mul(new Matrix4f().translate(x, y, z));
         }
     }
 
@@ -61,12 +62,12 @@ public class PlatformFunctions {
         Object matrix = ((IExtras)extras).getMatrix();
         if (matrix instanceof MatrixStack) {
             MatrixStack matrices = (MatrixStack)matrix;
-            matrices.multiply(Quaternion.fromEulerXyz(x, y, z));
+            matrices.multiply(new Quaternionf().rotateXYZ(x, y, z));
         } else {
             MatrixStack.Entry entry = (MatrixStack.Entry)matrix;
-            Quaternion quaternion = Quaternion.fromEulerXyz(x, y, z);
-            entry.getPositionMatrix().multiply(quaternion);
-            entry.getNormalMatrix().multiply(quaternion);
+            Quaternionf quaternion = new Quaternionf().rotateXYZ(x, y, z);
+            entry.getPositionMatrix().rotate(quaternion);
+            entry.getNormalMatrix().rotate(quaternion);
         }
     }
 
@@ -77,14 +78,14 @@ public class PlatformFunctions {
             matrices.scale(x, y, z);
         } else {
             MatrixStack.Entry entry = (MatrixStack.Entry)matrix;
-            entry.getPositionMatrix().multiply(Matrix4f.scale(x, y, z));
+            entry.getPositionMatrix().mul(new Matrix4f().scale(x, y, z));
             if (x == y && y == z) {
                 if (x > 0.0f) return;
-                entry.getNormalMatrix().multiply(-1.0f);
+                entry.getNormalMatrix().scale(-1.0f);
             }
             float f = 1.0f / x, g = 1.0f / y, h = 1.0f / z;
             float i = MathHelper.fastInverseCbrt(f * g * h);
-            entry.getNormalMatrix().multiply(Matrix3f.scale(i * f, i * g, i * h));
+            entry.getNormalMatrix().mul(new Matrix3f().scale(i * f, i * g, i * h));
         }
     }
 

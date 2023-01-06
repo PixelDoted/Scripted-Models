@@ -1,7 +1,6 @@
 + remove_script no longer calls reset_script on server
 
 - particle position and velocity follows a modelparts rotation
-- move networking to pixel's character models
 
 ? variables
 ? maximum entity distance to run scripts
