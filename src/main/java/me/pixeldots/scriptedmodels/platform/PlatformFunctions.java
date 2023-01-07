@@ -16,6 +16,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class PlatformFunctions {
+
+	public static final float MUL_16TO1 = 1F / 16F;
+	public static final float MUL_255TO1 = 1F / 255F;
     
     // global //
 
@@ -43,7 +46,9 @@ public class PlatformFunctions {
         int overlay = iExtras.getOverlay();
         int light = iExtras.getLight();
         
-        vc.vertex(position, x/16, y/16, z/16).color(r/255F, g/255F, b/255F, a/255F).texture(u, v).overlay(overlay).light(light).normal(normal, nx, ny, nz).next();
+        vc.vertex(position, x * MUL_16TO1, y * MUL_16TO1, z * MUL_16TO1)
+        	.color(r * MUL_255TO1, g * MUL_255TO1, b * MUL_255TO1, a * MUL_255TO1)
+        	.texture(u, v).overlay(overlay).light(light).normal(normal, nx, ny, nz).next();
     }
 
     // transform

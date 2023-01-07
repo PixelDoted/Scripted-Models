@@ -28,6 +28,8 @@ public class ScriptedModels implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		// TODO: support versions older then 1.19.x (JOML)
+
 		minecraft = MinecraftClient.getInstance();
 		ClientNetwork.register();
 
