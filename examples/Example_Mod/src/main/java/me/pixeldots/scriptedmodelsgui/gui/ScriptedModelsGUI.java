@@ -1,11 +1,11 @@
-package me.pixeldots.scriptedmodelsgui.gui;
+package me.pixeldotsgui.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
-import me.pixeldots.scriptedmodelsgui.ScriptedModelsGui;
+import me.pixeldotsgui.ScriptedModelsGui;
 import me.pixeldots.scriptedmodels.ClientHelper;
 import me.pixeldots.scriptedmodels.ScriptedModels;
 import me.pixeldots.scriptedmodels.platform.PlatformUtils;

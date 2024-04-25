@@ -12,11 +12,10 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import me.pixeldots.scriptedmodels.platform.network.ClientNetwork;
-import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain;
+import me.pixeldots.scriptedmodels.ClientNetwork;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 
-public class ScriptedModels implements ClientModInitializer {
+public class ScriptedModelsClient implements ClientModInitializer {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger("scriptedmodels");
 

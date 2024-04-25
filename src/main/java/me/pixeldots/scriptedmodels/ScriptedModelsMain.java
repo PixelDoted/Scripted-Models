@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.platform.network;
+package me.pixeldots.scriptedmodels;
 
 import java.io.FileReader;
 import java.io.FileWriter;

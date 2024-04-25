@@ -3,7 +3,7 @@ package me.pixeldots.scriptedmodels;
 import java.util.UUID;
 
 import me.pixeldots.scriptedmodels.platform.PlatformUtils;
-import me.pixeldots.scriptedmodels.platform.network.ClientNetwork;
+import me.pixeldots.scriptedmodels.ClientNetwork;
 import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 import net.minecraft.client.model.ModelPart;
@@ -16,7 +16,7 @@ public class ClientHelper {
      * @param uuid the entity's uuid
      */
     public static void reset_entity(UUID uuid) {
-        ScriptedModels.EntityScript.remove(uuid);
+        ScriptedModelsClient.EntityScript.remove(uuid);
         ClientNetwork.reset_entity(uuid);
     }
 
@@ -27,8 +27,8 @@ public class ClientHelper {
      * @param part the entity's modelpart (null for global script)
      */
     public static void remove_script(UUID uuid, EntityModel<?> model, ModelPart part) {
-        if (part == null) ScriptedModels.EntityScript.get(uuid).global.clear();
-        else ScriptedModels.EntityScript.get(uuid).parts.remove(part);
+        if (part == null) ScriptedModelsClient.EntityScript.get(uuid).global.clear();
+        else ScriptedModelsClient.EntityScript.get(uuid).parts.remove(part);
         ClientNetwork.remove_script(uuid, getModelPartIndex(part, model));
     }
 
@@ -39,8 +39,8 @@ public class ClientHelper {
      * @param part_id the entity's modelpart id
      */
     public static void remove_script(UUID uuid, ModelPart part, int part_id) {
-        if (part == null) ScriptedModels.EntityScript.get(uuid).global.clear();
-        else ScriptedModels.EntityScript.get(uuid).parts.remove(part);
+        if (part == null) ScriptedModelsClient.EntityScript.get(uuid).global.clear();
+        else ScriptedModelsClient.EntityScript.get(uuid).parts.remove(part);
         ClientNetwork.remove_script(uuid, part_id);
     }
 
@@ -75,22 +75,22 @@ public class ClientHelper {
      * @return the decompiled script
      */
     public static String decompile_script(UUID uuid, ModelPart modelpart) {
-        if (!ScriptedModels.EntityScript.containsKey(uuid))
+        if (!ScriptedModelsClient.EntityScript.containsKey(uuid))
             return "";
         
-        if (modelpart == null) return Interpreter.decompile(ScriptedModels.EntityScript.get(uuid).global);
+        if (modelpart == null) return Interpreter.decompile(ScriptedModelsClient.EntityScript.get(uuid).global);
         else {
-            if (!ScriptedModels.EntityScript.get(uuid).parts.containsKey(modelpart)) return "";
-            return Interpreter.decompile(ScriptedModels.EntityScript.get(uuid).parts.get(modelpart));
+            if (!ScriptedModelsClient.EntityScript.get(uuid).parts.containsKey(modelpart)) return "";
+            return Interpreter.decompile(ScriptedModelsClient.EntityScript.get(uuid).parts.get(modelpart));
         }
     }
 
     private static void change_script(UUID uuid, ModelPart modelpart, String script) {
-        if (!ScriptedModels.EntityScript.containsKey(uuid))
-            ScriptedModels.EntityScript.put(uuid, new ScriptedEntity());
+        if (!ScriptedModelsClient.EntityScript.containsKey(uuid))
+            ScriptedModelsClient.EntityScript.put(uuid, new ScriptedEntity());
 
-        if (modelpart == null) ScriptedModels.EntityScript.get(uuid).global = Interpreter.compile(script.split("\n"));
-        else ScriptedModels.EntityScript.get(uuid).parts.put(modelpart, Interpreter.compile(script.split("\n")));
+        if (modelpart == null) ScriptedModelsClient.EntityScript.get(uuid).global = Interpreter.compile(script.split("\n"));
+        else ScriptedModelsClient.EntityScript.get(uuid).parts.put(modelpart, Interpreter.compile(script.split("\n")));
     }
 
     private static int getModelPartIndex(ModelPart modelpart, EntityModel<?> model) {

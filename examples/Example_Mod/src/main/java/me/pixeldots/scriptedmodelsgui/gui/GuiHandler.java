@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodelsgui.gui;
+package me.pixeldotsgui.gui;
 
 import java.util.List;
 

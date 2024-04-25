@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.platform.mixin;
+package me.pixeldots.scriptedmodels.mixin;
 
 import java.util.UUID;
 
@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import me.pixeldots.scriptedmodels.ScriptedModels;
+import me.pixeldots.scriptedmodels.ScriptedModelsClient;
 import me.pixeldots.scriptedmodels.platform.other.LivingEntityExtras;
 import me.pixeldots.scriptedmodels.script.line.Line;
 import me.pixeldots.scriptedmodels.script.line.LineMode;
@@ -22,10 +22,10 @@ public class LivingEntityMixin {
         LivingEntity me = (LivingEntity)(Object)this;
         UUID uuid = me.getUuid();
 
-        if (!ScriptedModels.EntityScript.containsKey(uuid)) return;
+        if (!ScriptedModelsClient.EntityScript.containsKey(uuid)) return;
 
-        LivingEntityExtras extras = new LivingEntityExtras().set(me, me.world);
-        for (Line line : ScriptedModels.EntityScript.get(uuid).global) {
+        LivingEntityExtras extras = new LivingEntityExtras().set(me, me.getWorld());
+        for (Line line : ScriptedModelsClient.EntityScript.get(uuid).global) {
             if (line.type == LineType.CANCEL) { return; }
             line.run(extras, LineMode.TICK);
         }

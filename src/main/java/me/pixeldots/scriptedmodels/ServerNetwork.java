@@ -1,11 +1,12 @@
-package me.pixeldots.scriptedmodels.platform.network;
+package me.pixeldots.scriptedmodels;
 
 import java.util.UUID;
 
 import com.google.gson.Gson;
 
-import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.EntityData;
-import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkIdentifyers;
+import me.pixeldots.scriptedmodels.ScriptedModelsMain.EntityData;
+import me.pixeldots.scriptedmodels.ScriptedModelsMain.NetworkIdentifyers;
+import me.pixeldots.scriptedmodels.NetworkUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;

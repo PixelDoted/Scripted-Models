@@ -1,13 +1,13 @@
-package me.pixeldots.scriptedmodels.platform.network;
+package me.pixeldots.scriptedmodels;
 
 import java.util.UUID;
 
 import com.google.gson.Gson;
 
-import me.pixeldots.scriptedmodels.ScriptedModels;
+import me.pixeldots.scriptedmodels.ScriptedModelsClient;
+import me.pixeldots.scriptedmodels.ScriptedModelsMain.EntityData;
+import me.pixeldots.scriptedmodels.ScriptedModelsMain.NetworkIdentifyers;
 import me.pixeldots.scriptedmodels.platform.PlatformUtils;
-import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.EntityData;
-import me.pixeldots.scriptedmodels.platform.network.ScriptedModelsMain.NetworkIdentifyers;
 import me.pixeldots.scriptedmodels.script.Interpreter;
 import me.pixeldots.scriptedmodels.script.ScriptedEntity;
 import net.fabricmc.api.EnvType;
@@ -56,7 +56,7 @@ public class ClientNetwork {
                     scripted.parts.put(model_part, Interpreter.compile(data.parts.get(part_id).split("\n")));
                 }
 
-                ScriptedModels.EntityScript.put(uuid, scripted);
+                ScriptedModelsClient.EntityScript.put(uuid, scripted);
             }
         });
         ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.recive_script, (client, handler, buf, responseSender) -> {
@@ -67,8 +67,8 @@ public class ClientNetwork {
 
             String script = (is_compressed ? NetworkUtils.decompress_tostring(byte_script) : new String(byte_script));
 
-            if (!ScriptedModels.EntityScript.containsKey(uuid)) ScriptedModels.EntityScript.put(uuid, new ScriptedEntity());
-            if (part_id == -1) ScriptedModels.EntityScript.get(uuid).global = Interpreter.compile(script.split("\n"));
+            if (!ScriptedModelsClient.EntityScript.containsKey(uuid)) ScriptedModelsClient.EntityScript.put(uuid, new ScriptedEntity());
+            if (part_id == -1) ScriptedModelsClient.EntityScript.get(uuid).global = Interpreter.compile(script.split("\n"));
             else {
                 LivingEntity entity = PlatformUtils.getLivingEntity(uuid);
                 EntityModel<?> model = PlatformUtils.getModel(entity);
@@ -78,14 +78,14 @@ public class ClientNetwork {
                 if (part_id >= 100) model_part = getModelPart(part_id-100, PlatformUtils.getHeadParts(model));
                 else model_part = getModelPart(part_id, PlatformUtils.getBodyParts(model));
 
-                if (!ScriptedModels.EntityScript.containsKey(uuid)) ScriptedModels.EntityScript.put(uuid, new ScriptedEntity());
-                ScriptedModels.EntityScript.get(uuid).parts.put(model_part, Interpreter.compile(script.split("\n")));
+                if (!ScriptedModelsClient.EntityScript.containsKey(uuid)) ScriptedModelsClient.EntityScript.put(uuid, new ScriptedEntity());
+                ScriptedModelsClient.EntityScript.get(uuid).parts.put(model_part, Interpreter.compile(script.split("\n")));
             }
         });
 
         ClientPlayNetworking.registerGlobalReceiver(NetworkIdentifyers.error, (client, handler, buf, responseSender) -> {
             String err = buf.readString();
-            ScriptedModels.LOGGER.error(err);
+            ScriptedModelsClient.LOGGER.error(err);
         });
     }
 
