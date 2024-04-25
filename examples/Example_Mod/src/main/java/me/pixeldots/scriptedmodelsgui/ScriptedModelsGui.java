@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodelsgui;
+package me.pixeldotsgui;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import me.pixeldots.scriptedmodelsgui.gui.KeyBindings;
+import me.pixeldotsgui.gui.KeyBindings;
 
 public class ScriptedModelsGui implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("scriptedmodelsgui");

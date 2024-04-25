@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.pixeldots.scriptedmodelsgui.ScriptedModelsGui"
+      "me.pixeldotsgui.ScriptedModelsGui"
     ]
   },
   "mixins": [],

@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodels.platform.mixin;
+package me.pixeldots.scriptedmodels.mixin;
 
 import java.util.UUID;
 
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.pixeldots.scriptedmodels.ClientHelper;
-import me.pixeldots.scriptedmodels.ScriptedModels;
+import me.pixeldots.scriptedmodels.ScriptedModelsClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Entity.RemovalReason;
@@ -22,7 +22,7 @@ public class EntityMixin {
         if ((Object)this instanceof LivingEntity) {
             LivingEntity me = (LivingEntity)(Object)this;
             UUID uuid = me.getUuid();
-            if (ScriptedModels.EntityScript.containsKey(uuid) && !(me instanceof PlayerEntity))
+            if (ScriptedModelsClient.EntityScript.containsKey(uuid) && !(me instanceof PlayerEntity))
                 ClientHelper.reset_entity(uuid);
         }
     }

@@ -1,10 +1,12 @@
-package me.pixeldots.scriptedmodels.platform.network;
+package me.pixeldots.scriptedmodels;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
+import me.pixeldots.scriptedmodels.ScriptedModelsMain;
 
 public class NetworkUtils {
 

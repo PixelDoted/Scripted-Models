@@ -1,4 +1,4 @@
-package me.pixeldots.scriptedmodelsgui.gui;
+package me.pixeldotsgui.gui;
 
 import org.lwjgl.glfw.GLFW;
 

@@ -5,10 +5,10 @@ import java.util.UUID;
 
 import com.google.common.collect.ImmutableList;
 
-import me.pixeldots.scriptedmodels.ScriptedModels;
-import me.pixeldots.scriptedmodels.platform.mixin.LlamaEntityModelAccessor;
-import me.pixeldots.scriptedmodels.platform.mixin.RabbitEntityModelAccessor;
-import me.pixeldots.scriptedmodels.platform.mixin.IAnimalModelMixin;
+import me.pixeldots.scriptedmodels.ScriptedModelsClient;
+import me.pixeldots.scriptedmodels.mixin.IAnimalModelMixin;
+import me.pixeldots.scriptedmodels.mixin.LlamaEntityModelAccessor;
+import me.pixeldots.scriptedmodels.mixin.RabbitEntityModelAccessor;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.AnimalModel;
@@ -29,10 +29,10 @@ public class PlatformUtils {
 	 * @return the LivingEntity
 	 */
 	public static LivingEntity getLivingEntity(UUID uuid) {
-		PlayerEntity player = ScriptedModels.minecraft.world.getPlayerByUuid(uuid);
+		PlayerEntity player = ScriptedModelsClient.minecraft.world.getPlayerByUuid(uuid);
 		if (player != null) return player;
 
-		Iterable<Entity> entities = ScriptedModels.minecraft.world.getEntities();
+		Iterable<Entity> entities = ScriptedModelsClient.minecraft.world.getEntities();
 		for (Entity entity : entities) {
 			if (entity instanceof LivingEntity && entity.getUuid().equals(uuid)) 
 				return (LivingEntity)entity;
@@ -48,7 +48,7 @@ public class PlatformUtils {
     public static EntityModel<?> getModel(LivingEntity entity) {
 		if (entity == null) return null;
 
-		LivingEntityRenderer<?,?> living_renderer = (LivingEntityRenderer<?,?>)ScriptedModels.minecraft.getEntityRenderDispatcher().getRenderer(entity);
+		LivingEntityRenderer<?,?> living_renderer = (LivingEntityRenderer<?,?>)ScriptedModelsClient.minecraft.getEntityRenderDispatcher().getRenderer(entity);
 		return living_renderer == null ? null : living_renderer.getModel();
 	}
 
